@@ -4,15 +4,20 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
@@ -22,6 +27,7 @@ import com.sabtok.util.DateHandler;
 
 @Entity
 @Table(name="BOOKS")
+@SequenceGenerator(name="BOOK_SEQUENCE", initialValue=1, allocationSize=100)
 public class Book implements Serializable ,Comparable<Book>{
 	@Override
 	public String toString() {
@@ -29,14 +35,14 @@ public class Book implements Serializable ,Comparable<Book>{
 				+ description + ", createdDate=" + createdDate + ", createdBy=" + createdBy + "]";
 	}
 
-	@Id
+
 	@Column(name="BOOKID")
 	private String bookId;
 	
-	
-	@GeneratedValue
+	@Id
+	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="BOOK_SEQUENCE")
 	@Column(name="BOOKNO")
-	private int bookNo;
+	private Long bookNo;
 	
 	@Column(name="BOOKNAME")
 	@NotEmpty(message="Book name is mandatory")
@@ -45,11 +51,23 @@ public class Book implements Serializable ,Comparable<Book>{
 	@Column(name="DESCRIPTION")
 	private String description;
 	
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
 	@Column(name="CREATED_DATE")
 	private Date createdDate;
 	
 	@Column(name="CREATED_BY")
 	private String createdBy;
+	
+	@OneToMany
+	private List<Page> pages;
+
+	public List<Page> getPages() {
+		return pages;
+	}
+
+	public void setPages(List<Page> pages) {
+		this.pages = pages;
+	}
 
 	public String getBookId() {
 		return bookId;
@@ -59,11 +77,11 @@ public class Book implements Serializable ,Comparable<Book>{
 		this.bookId = bookId;
 	}
 
-	public int getBookNo() {
+	public Long getBookNo() {
 		return bookNo;
 	}
 
-	public void setBookNo(int bookNo) {
+	public void setBookNo(Long bookNo) {
 		this.bookNo = bookNo;
 	}
 
