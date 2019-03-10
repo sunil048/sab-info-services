@@ -1,6 +1,7 @@
 package com.sabtok.persistance.entity;
 
 import java.io.Serializable;
+import java.sql.Blob;
 import java.sql.Date;
 
 import javax.persistence.Column;
@@ -14,6 +15,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Type;
+
 @Entity
 @Table(name="PAGES")
 @SequenceGenerator(name="PAGE_SEQUENCE", initialValue=1, allocationSize=100)
@@ -25,13 +28,15 @@ public class Page implements Serializable,Comparable<Page>{
 	private static final long serialVersionUID = 1L;
 
 	
-	@Column(name="PAGEID")
-	private String pageId;
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="PAGE_SEQUENCE")
 	@Column(name="PAGENO")
 	private Long pageNo;
+	
+	@Column(name="PAGEID")
+	private String pageId;
+	
 	
 	@Column(name="BOOKID")
 	private String bookId;
@@ -47,10 +52,10 @@ public class Page implements Serializable,Comparable<Page>{
 		this.bookName = bookName;
 	}
 
-	@Override
+	/*@Override
 	public String toString() {
 		return "Page [pageId=" + pageId + ", pageNo=" + pageNo + ", bookId=" + bookId + ", title=" + title + "]";
-	}
+	}*/
 
 	public String getBookId() {
 		return bookId;
@@ -65,6 +70,7 @@ public class Page implements Serializable,Comparable<Page>{
 	
 	@Column(name="CONTENT")
 	@Lob
+	@Type(type = "org.hibernate.type.TextType")
 	private String content;
 	
 	@Column(name="CREATED_DATE")

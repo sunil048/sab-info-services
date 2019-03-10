@@ -2,8 +2,8 @@ package com.sabtok.persistance.dao;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.sabtok.persistance.entity.Log;
+import com.sabtok.persistance.entity.Event;
 
-public interface LogDao extends JpaRepository<Log, Long>{
+public interface EventDao extends JpaRepository<Event, Long>{
 
 }

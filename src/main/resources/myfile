@@ -1,2 +1,6 @@
 resturls
 1.http://localhost:8082/book/books/all
+2.http://localhost:8082/book//books/id/kbd
+
+3.http://localhost:8082/page/all
+4.http://localhost:8082/page/no/200

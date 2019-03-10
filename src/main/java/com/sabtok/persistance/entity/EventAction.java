@@ -1,5 +1,5 @@
 package com.sabtok.persistance.entity;
 
-public enum LogAction {
+public enum EventAction {
 		CREATED,MODIFIED,DELETED
 }

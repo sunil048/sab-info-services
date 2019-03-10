@@ -9,15 +9,22 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+
+
+
 @Entity
-@Table(name="LOGS")
+@Table(name="EVENTS")
 @SequenceGenerator(name="LOG_SEQUENCE",initialValue=1, allocationSize=10000)
-public class Log {
+@JsonInclude(content = JsonInclude.Include.NON_NULL)
+public class Event {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="LOG_SEQUENCE")
-	@Column(name="LOG_ID")
-	private long logId;
+	@Column(name="Event_ID")
+	private long eventId;
 	
 	private String bookId;
 	
@@ -26,15 +33,15 @@ public class Log {
 	private String createdBy;
 	private Date lastModifiedDate;
 	private String modifiedBy;
-	private LogAction action;
+	private EventAction action;
 	private String remark;
 	
 	public long getLogId() {
-		return logId;
+		return eventId;
 	}
 
 	public void setLogId(long logId) {
-		this.logId = logId;
+		this.eventId = logId;
 	}
 
 	public String getBookId() {
@@ -97,11 +104,11 @@ public class Log {
 	
 	private Date createdDate;
 	
-	public LogAction getAction() {
+	public EventAction getAction() {
 		return action;
 	}
 
-	public void setAction(LogAction action) {
+	public void setAction(EventAction action) {
 		this.action = action;
 	}
 

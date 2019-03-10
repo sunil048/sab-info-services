@@ -15,26 +15,26 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sabtok.persistance.dao.LogDao;
+import com.sabtok.persistance.dao.EventDao;
 import com.sabtok.persistance.entity.Book;
-import com.sabtok.persistance.entity.Log;
+import com.sabtok.persistance.entity.Event;
 
 @RestController
-@RequestMapping("/log")
+@RequestMapping("/event")
 @EnableJpaRepositories
 @ComponentScan(basePackages= {"com.sabtok.persistance.dao"})
-public class LogController {
+public class EventController {
 	
 	@Autowired
-	LogDao logDao;
-	@GetMapping("/logs/all")
-	public List<Log> getBooks(){
+	EventDao logDao;
+	@GetMapping("/all")
+	public List<Event> getBooks(){
 		return logDao.findAll();
 	}
 	
 	@RequestMapping(value="/load",method=RequestMethod.POST)
 	@ResponseBody
-	public String saveBook(@Valid @RequestBody Log log) {
+	public String saveBook(@Valid @RequestBody Event log) {
 		System.out.println("calling method and saving entity");
 		System.out.println(log);
 		logDao.save(log);

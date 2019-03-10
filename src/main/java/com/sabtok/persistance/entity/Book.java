@@ -11,10 +11,15 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Cascade;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -59,6 +64,16 @@ public class Book implements Serializable ,Comparable<Book>{
 	private String createdBy;
 	
 	@OneToMany
+	//@JoinColumns(name="page",joinColumns = @JoinColumn(name = "bookId"),inverseJoinColumns)
+	/*@JoinColumns({
+		 @JoinColumn(name="ADDR_ID", referencedColumnName="bookId"),
+	        @JoinColumn(name="ADDR_ZIP", referencedColumnName="bookId")
+	})*/
+	@JoinColumn(name="PAGE", referencedColumnName="BOOKID")
+	/*@JoinColumns({
+        @JoinColumn(name="ADDR_ID", referencedColumnName="ID"),
+        @JoinColumn(name="ADDR_ZIP", referencedColumnName="ZIP")
+    })*/
 	private List<Page> pages;
 
 	public List<Page> getPages() {
