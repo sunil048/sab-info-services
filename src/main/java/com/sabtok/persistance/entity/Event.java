@@ -12,29 +12,42 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
-
-
-
 @Entity
 @Table(name="EVENTS")
-@SequenceGenerator(name="LOG_SEQUENCE",initialValue=1, allocationSize=10000)
+//@SequenceGenerator(name="LOG_SEQUENCE",initialValue=1, allocationSize=10000)
 @JsonInclude(content = JsonInclude.Include.NON_NULL)
 public class Event {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="LOG_SEQUENCE")
-	@Column(name="Event_ID")
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name="EventId")
 	private long eventId;
 	
+	@Column(name="BokkId")
 	private String bookId;
 	
+	@Column(name="PageId")
 	private String pageId;
 	
+	@Column(name="CreatedBy")
 	private String createdBy;
+	
+	@Column(name="ModifiedDate")
 	private Date lastModifiedDate;
+	
+	@Column(name="ModifiedBy")
 	private String modifiedBy;
+	
 	private EventAction action;
+	
+	@Column(name="Remark")
 	private String remark;
+	
+	@Column(name="DocumentId")
+	private String documentId;
+	
+	@Column(name="CreatedDate")
+	private Date createdDate;
 	
 	public long getLogId() {
 		return eventId;
@@ -100,9 +113,7 @@ public class Event {
 		this.modifiedBy = modifiedBy;
 	}
 
-	private String documentId;
-	
-	private Date createdDate;
+
 	
 	public EventAction getAction() {
 		return action;
@@ -119,7 +130,5 @@ public class Event {
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
-	
-	
 	
 }

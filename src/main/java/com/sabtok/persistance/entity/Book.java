@@ -2,8 +2,8 @@ package com.sabtok.persistance.entity;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -21,6 +21,7 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.core.JsonParser;
@@ -32,20 +33,15 @@ import com.sabtok.util.DateHandler;
 
 @Entity
 @Table(name="BOOKS")
-@SequenceGenerator(name="BOOK_SEQUENCE", initialValue=1, allocationSize=100)
+//@SequenceGenerator(name="BOOK_SEQUENCE", initialValue=1000, allocationSize=1000)
 public class Book implements Serializable ,Comparable<Book>{
-	@Override
-	public String toString() {
-		return "Book [bookId=" + bookId + ", bookNo=" + bookNo + ", bookName=" + bookName + ", description="
-				+ description + ", createdDate=" + createdDate + ", createdBy=" + createdBy + "]";
-	}
-
 
 	@Column(name="BOOKID")
 	private String bookId;
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="BOOK_SEQUENCE")
+	//@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="BOOK_SEQUENCE")
+	//@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="BOOKNO")
 	private Long bookNo;
 	
@@ -57,6 +53,7 @@ public class Book implements Serializable ,Comparable<Book>{
 	private String description;
 	
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+	//@DateTimeFormat(pattern = "dd-MM-yyyy")
 	@Column(name="CREATED_DATE")
 	private Date createdDate;
 	
@@ -137,6 +134,11 @@ public class Book implements Serializable ,Comparable<Book>{
 		// return 0; maintain same order
 	}
 	
+	@Override
+	public String toString() {
+		return "Book [bookId=" + bookId + ", bookNo=" + bookNo + ", bookName=" + bookName + ", description="
+				+ description + ", createdDate=" + createdDate + ", createdBy=" + createdBy + "]";
+	}
 
 	
 }

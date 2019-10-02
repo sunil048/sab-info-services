@@ -52,7 +52,6 @@ public class BookControler {
 		return (int) bookDao.count();
 	}
 	
-	@CrossOrigin(origins = "http://localhost:4200")
 	@GetMapping("/all")
 	public List<Book> getBooks(){
 		log.info("Getting list of books");

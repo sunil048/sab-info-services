@@ -19,18 +19,16 @@ import org.hibernate.annotations.Type;
 
 @Entity
 @Table(name="PAGES")
-@SequenceGenerator(name="PAGE_SEQUENCE", initialValue=1, allocationSize=100)
+//@SequenceGenerator(name="PAGE_SEQUENCE", initialValue=1, allocationSize=100)
 public class Page implements Serializable,Comparable<Page>{
 	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
-	
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="PAGE_SEQUENCE")
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="PAGENO")
 	private Long pageNo;
 	

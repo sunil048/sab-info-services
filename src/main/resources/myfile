@@ -4,3 +4,4 @@ resturls
 
 3.http://localhost:8082/page/all
 4.http://localhost:8082/page/no/200
+5./report/page/{pageId}
