@@ -49,6 +49,10 @@ public class PageController {
 		return pageRepo.count();
 	}
 	
+	@GetMapping("/details/{pageId}")
+	public Page getPageDetails(@PathVariable("pageId") String pageId) {
+		return pageRepo.getPageDetailsByPageId(pageId);
+	}
 	
 	@RequestMapping(value="/save",method=RequestMethod.POST)
 	@ResponseBody
@@ -86,10 +90,10 @@ public class PageController {
 		log.info("getBookDetailsByBookId "+bookId);
 		System.out.println("hello");
 		 List<Page> pageList = new ArrayList<Page>();
-		for (Page page : getAllPagesList())
-			if (page.getBookId().equals(bookId))
-				pageList.add(page);
-		return pageList;
+		//for (Page page : getAllPagesList())
+			//if (page.getBookId().equals(bookId))
+				//pageList.add(page);
+		return  getAllPagesList();
 		
 	}
 	

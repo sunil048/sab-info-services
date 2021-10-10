@@ -6,4 +6,5 @@ import com.sabtok.persistance.entity.Page;
 
 public interface PageDao extends JpaRepository<Page, Long>{
 
+	public Page getPageDetailsByPageId(String pageId);
 }
