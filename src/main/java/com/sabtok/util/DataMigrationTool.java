@@ -59,7 +59,7 @@ public class DataMigrationTool {
 			page.setBookName(rs.getString("BOOKNAME"));
 			
 			page.setContent(rs.getString("CONTENT"));
-			page.setPageNo(Long.valueOf(rs.getInt("PAGENO")));
+			page.setPageNo(rs.getInt("PAGENO"));
 			page.setTitle(rs.getString("TITLE"));
 			oldPageData.add(page);
 		}
@@ -87,7 +87,7 @@ public class DataMigrationTool {
 		// String name = rsmd.getColumnName(5);
 		// System.out.println(name);
 		for(Page page : oldPageData) {
-			 int pageid = Integer.valueOf(page.getPageNo().toString());
+			 int pageid = Integer.valueOf(page.getPageNo());
 			 System.out.println("page id "+pageid);
 			 ps.setInt(1, pageid);
 			 ps.setString(2, page.getBookId());

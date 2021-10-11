@@ -1,40 +1,29 @@
 package com.sabtok.persistance.entity;
 
 import java.io.Serializable;
-import java.sql.Blob;
-import java.sql.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-
-import org.hibernate.annotations.Type;
 
 @Entity
 @Table(name="PAGES")
-//@SequenceGenerator(name="PAGE_SEQUENCE", initialValue=1, allocationSize=100)
 public class Page implements Serializable,Comparable<Page>{
 	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="PAGENO")
-	private Long pageNo;
-	
 	@Column(name="PAGEID")
 	private String pageId;
 	
+	@Column(name="PAGENO")
+	private int pageNo;
 	
 	@Column(name="BOOKID")
 	private String bookId;
@@ -50,10 +39,10 @@ public class Page implements Serializable,Comparable<Page>{
 		this.bookName = bookName;
 	}
 
-	/*@Override
+	@Override
 	public String toString() {
 		return "Page [pageId=" + pageId + ", pageNo=" + pageNo + ", bookId=" + bookId + ", title=" + title + "]";
-	}*/
+	}
 
 	public String getBookId() {
 		return bookId;
@@ -68,17 +57,13 @@ public class Page implements Serializable,Comparable<Page>{
 	
 	@Column(name="CONTENT")
 	@Lob
-	@Type(type = "org.hibernate.type.TextType")
 	private String content;
 	
 	@Column(name="CREATED_DATE")
-	private Date createdDate;
+	private String createdDate;
 	
 	@Column(name="CREATED_BY")
 	private String createdBy;
-	
-	@OneToOne
-	private Book book;
 
 	public String getPageId() {
 		return pageId;
@@ -88,11 +73,11 @@ public class Page implements Serializable,Comparable<Page>{
 		this.pageId = pageId;
 	}
 
-	public Long getPageNo() {
+	public int getPageNo() {
 		return pageNo;
 	}
 
-	public void setPageNo(Long pageNo) {
+	public void setPageNo(int pageNo) {
 		this.pageNo = pageNo;
 	}
 
@@ -112,11 +97,11 @@ public class Page implements Serializable,Comparable<Page>{
 		this.content = content;
 	}
 
-	public Date getCreatedDate() {
+	public String getCreatedDate() {
 		return createdDate;
 	}
 
-	public void setCreatedDate(Date createdDate) {
+	public void setCreatedDate(String createdDate) {
 		this.createdDate = createdDate;
 	}
 
@@ -129,7 +114,7 @@ public class Page implements Serializable,Comparable<Page>{
 	}
 
 	public int compareTo(Page o) {
-		return (int) ((this.pageNo)-o.getPageNo());
+		return (this.pageNo)-o.getPageNo();
 	}
 
 }

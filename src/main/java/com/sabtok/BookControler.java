@@ -71,19 +71,11 @@ public class BookControler {
 		Book book= bookDao.findOne(Long.valueOf(bookNo));
 		return new ResponseEntity<Book>(book, HttpStatus.OK);
 	}
-	@GetMapping("/no/page/{bookNo}")
-	public  List<Page> getPageDetailsByBookId(@PathVariable("bookNo") String bookNo){
-		log.info("getBookDetailsByBookId "+bookNo);
-		System.out.println("hello");
-		Book book= bookDao.findOne(Long.valueOf(bookNo));
-		List<Page> pageList = book.getPages();
-		return pageList;
-		
-	}
+	
 	
 	@RequestMapping(value="/load",method=RequestMethod.POST)
 	@ResponseBody
-	public Long saveBook(@Valid @RequestBody Book book) {
+	public Integer saveBook(@Valid @RequestBody Book book) {
 		log.info("calling method and saving entity ");
 		System.out.println(book);
 		

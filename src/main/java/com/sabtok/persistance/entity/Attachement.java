@@ -10,8 +10,11 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name="DOCUMENTS")
+@JsonIgnoreProperties(value = { "content" })
 public class Attachement implements Serializable,Comparable<Attachement> {
 	
 	/**

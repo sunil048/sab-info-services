@@ -19,11 +19,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sabtok.persistance.dao.PageDao;
-import com.sabtok.persistance.entity.Book;
 import com.sabtok.persistance.entity.Event;
 import com.sabtok.persistance.entity.EventAction;
 import com.sabtok.persistance.entity.Page;
 import com.sabtok.util.SabInfoUtil;
+
+
 
 @RestController
 @RequestMapping("/page")
@@ -56,7 +57,7 @@ public class PageController {
 	
 	@RequestMapping(value="/save",method=RequestMethod.POST)
 	@ResponseBody
-	public Long creatPage(@RequestBody Page page) {
+	public int creatPage(@RequestBody Page page) {
 		Event log = new Event();
 		log.setPageId(page.getPageId());
 		log.setAction(EventAction.CREATED);
@@ -68,10 +69,10 @@ public class PageController {
 	@RequestMapping(value="/update",method=RequestMethod.POST)
 	@ResponseBody
 	public String updatePage(@RequestBody Page page) {
-		Event log = new Event();
-		log.setPageId(page.getPageId());
-		log.setAction(EventAction.MODIFIED);
-		util.updateLogFields(log);
+		//Event log = new Event();
+		//log.setPageId(page.getPageId());
+		//log.setAction(EventAction.MODIFIED);
+		//util.updateLogFields(log);
 		pageRepo.save(page);
 		return EventAction.MODIFIED+" Page "+page.getPageId();
 	}
@@ -86,14 +87,9 @@ public class PageController {
 	}
 	
 	@GetMapping("/pageList/{bookId}")
-	public  List<Page> getPageDetailsByBookId(@PathVariable("bookId") String bookId){
-		log.info("getBookDetailsByBookId "+bookId);
-		System.out.println("hello");
-		 List<Page> pageList = new ArrayList<Page>();
-		//for (Page page : getAllPagesList())
-			//if (page.getBookId().equals(bookId))
-				//pageList.add(page);
-		return  getAllPagesList();
+	public  List<Page> getPageListByBookId(@PathVariable("bookId") String bookId){
+		log.info("Getting page List for given book id "+bookId);
+		return  pageRepo.getPageListByBookId(bookId);
 		
 	}
 	
