@@ -58,19 +58,12 @@ public class BookControler {
 		return bookDao.findAll();
 	}
 	
-	@GetMapping("/id/{bookNo}")
-	public Book getBookDetails(@PathVariable Long bookNo){
-		return bookDao.findOne(bookNo);
+	@GetMapping("/details/{bookId}")
+	public Book getBookDetails(@PathVariable String bookId){
+		return bookDao.findOne(bookId);
 	}
 	
-
-	@GetMapping("/no/{bookNo}")
-	public ResponseEntity<Book> getBookDetailsByBookId(@PathVariable("bookNo") String bookNo){
-		log.info("getBookDetailsByBookId "+bookNo);
-		System.out.println("hello");
-		Book book= bookDao.findOne(Long.valueOf(bookNo));
-		return new ResponseEntity<Book>(book, HttpStatus.OK);
-	}
+	
 	
 	
 	@RequestMapping(value="/load",method=RequestMethod.POST)
@@ -99,6 +92,20 @@ public class BookControler {
 		bookDao.save(book);
 		return EventAction.MODIFIED+" book "+book.getBookId();
 	}
+	/*
+	@GetMapping("/id/{bookNo}")
+	public Book getBookDetails(@PathVariable Long bookNo){
+		return bookDao.findOne(bookNo);
+	}
+	
+
+	@GetMapping("/no/{bookNo}")
+	public ResponseEntity<Book> getBookDetailsByBookId(@PathVariable("bookNo") String bookNo){
+		log.info("getBookDetailsByBookId "+bookNo);
+		System.out.println("hello");
+		Book book= bookDao.findOne(Long.valueOf(bookNo));
+		return new ResponseEntity<Book>(book, HttpStatus.OK);
+	}
 	
 	@RequestMapping(value="/remove/{bookNumber}",method=RequestMethod.GET)
 	@ResponseBody
@@ -112,5 +119,5 @@ public class BookControler {
 		return EventAction.DELETED+" book "+bookNo;
 	}
 	
-		
+		*/
 }

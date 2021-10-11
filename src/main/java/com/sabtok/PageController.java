@@ -50,6 +50,11 @@ public class PageController {
 		return pageRepo.count();
 	}
 	
+	@GetMapping("/pagecount/{bookId}")
+	public Integer getPageCountForBook(@PathVariable("bookId") String bookId) {
+		return pageRepo.getPageListByBookId(bookId).size();
+	}
+	
 	@GetMapping("/details/{pageId}")
 	public Page getPageDetails(@PathVariable("pageId") String pageId) {
 		return pageRepo.getPageDetailsByPageId(pageId);
@@ -58,10 +63,10 @@ public class PageController {
 	@RequestMapping(value="/save",method=RequestMethod.POST)
 	@ResponseBody
 	public int creatPage(@RequestBody Page page) {
-		Event log = new Event();
-		log.setPageId(page.getPageId());
-		log.setAction(EventAction.CREATED);
-		util.updateLogFields(log);
+		//Event log = new Event();
+		//log.setPageId(page.getPageId());
+		//log.setAction(EventAction.CREATED);
+		//util.updateLogFields(log);
 		pageRepo.save(page);
 		return page.getPageNo();
 	}

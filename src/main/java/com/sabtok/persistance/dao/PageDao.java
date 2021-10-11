@@ -10,4 +10,5 @@ public interface PageDao extends JpaRepository<Page, Long>{
 
 	public Page getPageDetailsByPageId(String pageId);
 	public List<Page> getPageListByBookId(String bookId);
+	
 }
