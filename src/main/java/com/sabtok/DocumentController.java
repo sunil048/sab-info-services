@@ -2,10 +2,16 @@ package com.sabtok;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.sql.Blob;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServletResponse;
+import javax.sql.rowset.serial.SerialBlob;
+import javax.sql.rowset.serial.SerialException;
 import javax.validation.Valid;
 
 import org.apache.commons.io.IOUtils;
@@ -22,6 +28,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.sabtok.persistance.dao.DocumentDao;
 import com.sabtok.persistance.entity.Attachement;
+import com.sabtok.util.JsonUtil;
 
 
 @RestController
@@ -75,6 +82,24 @@ public class DocumentController {
 	        } 
 	        return null;
 	    }
+
+	 @PostMapping("/save")
+	 public String saveDocument(@RequestParam("BODY") String doctPayload,@RequestParam(value="DOCUMENT",required=false) MultipartFile attachedFile) throws IOException, SerialException, SQLException {
+		 Attachement doc = (Attachement) JsonUtil.converStringToObject(doctPayload, Attachement.class);
+		 byte [] bytedata = attachedFile.getBytes();
+		 Blob myBlob = new SerialBlob(bytedata);
+		 doc.setContent(myBlob);
+		 doc.setCreatedDate(LocalDateTime.now().toString());
+		 
+		 documentDao.save(doc);
+		
+		 return "success";
+	 }
+	 
+	 @GetMapping("/doc-next-no/{pageId}")
+	 public Integer getPageNumber(@PathVariable("pageId") String pageId) {
+		 return documentDao.getTotalPageCount(pageId)+1;
+	 }
 	/*@PostMapping("/upload1")
 	public String uploadFile1(@RequestParam("file") MultipartFile file) {
 		Attachement doc = new Attachement();

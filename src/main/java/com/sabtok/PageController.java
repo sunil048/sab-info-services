@@ -23,6 +23,7 @@ import com.sabtok.persistance.entity.Event;
 import com.sabtok.persistance.entity.EventAction;
 import com.sabtok.persistance.entity.Page;
 import com.sabtok.util.SabInfoUtil;
+import com.sabtok.util.StringDateConverter;
 
 
 
@@ -67,6 +68,7 @@ public class PageController {
 		//log.setPageId(page.getPageId());
 		//log.setAction(EventAction.CREATED);
 		//util.updateLogFields(log);
+		page.setCreatedDate(StringDateConverter.getTimeStamp());
 		pageRepo.save(page);
 		return page.getPageNo();
 	}

@@ -1,9 +1,13 @@
 package com.sabtok.util;
 
 
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Date;
+
+import org.springframework.format.datetime.joda.LocalDateTimeParser;
 
 public class StringDateConverter {
 	
@@ -35,6 +39,13 @@ public class StringDateConverter {
 	public static void main(String[] args) throws ParseException {
 		String date1 = "17-04-2017 21:40:05";
 		String date2 = "17-04-2017";
-		getDateFromString(date2);
+		//getDateFromString(LocalDateTime);
+		System.out.println(LocalDateTime.now());
+	}
+	
+	public static String getTimeStamp() {
+		LocalDateTime localDateTime = LocalDateTime.now();
+		Timestamp timsStamp = Timestamp.valueOf(localDateTime);
+		return timsStamp.toString();
 	}
 }
