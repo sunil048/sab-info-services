@@ -16,6 +16,8 @@ import javax.validation.Valid;
 
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -84,7 +86,7 @@ public class DocumentController {
 	    }
 
 	 @PostMapping("/save")
-	 public String saveDocument(@RequestParam("BODY") String doctPayload,@RequestParam(value="DOCUMENT",required=false) MultipartFile attachedFile) throws IOException, SerialException, SQLException {
+	 public ResponseEntity<String> saveDocument(@RequestParam("BODY") String doctPayload,@RequestParam(value="DOCUMENT",required=false) MultipartFile attachedFile) throws IOException, SerialException, SQLException {
 		 Attachement doc = (Attachement) JsonUtil.converStringToObject(doctPayload, Attachement.class);
 		 byte [] bytedata = attachedFile.getBytes();
 		 Blob myBlob = new SerialBlob(bytedata);
@@ -92,8 +94,7 @@ public class DocumentController {
 		 doc.setCreatedDate(LocalDateTime.now().toString());
 		 
 		 documentDao.save(doc);
-		
-		 return "success";
+		 return new ResponseEntity <>(HttpStatus.OK).ok("success");
 	 }
 	 
 	 @GetMapping("/doc-next-no/{pageId}")
