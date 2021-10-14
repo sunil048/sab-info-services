@@ -1,6 +1,7 @@
 package com.sabtok;
 
 import java.sql.Date;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -55,7 +56,7 @@ public class BookControler {
 	@GetMapping("/all")
 	public List<Book> getBooks(){
 		log.info("Getting list of books");
-		return bookDao.findAll();
+		return bookDao.findByOrderByBookNameAsc();
 	}
 	
 	@GetMapping("/details/{bookId}")

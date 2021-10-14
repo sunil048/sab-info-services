@@ -31,6 +31,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.sabtok.persistance.dao.DocumentDao;
 import com.sabtok.persistance.entity.Attachement;
 import com.sabtok.util.JsonUtil;
+import com.sabtok.util.StringDateConverter;
 
 
 @RestController
@@ -48,7 +49,7 @@ public class DocumentController {
 	
 	@GetMapping("/list/{pageid}")
 	public List <Attachement> getDocumentListForPage(@PathVariable("pageid") String pageId){
-		return documentDao.getDocumentListByPageId(pageId);
+		return documentDao.getDocumentListByPageIdOrderByAttachementNoAsc(pageId);
 	}
 	
 	@PostMapping("/upload")
@@ -86,15 +87,15 @@ public class DocumentController {
 	    }
 
 	 @PostMapping("/save")
-	 public ResponseEntity<String> saveDocument(@RequestParam("BODY") String doctPayload,@RequestParam(value="DOCUMENT",required=false) MultipartFile attachedFile) throws IOException, SerialException, SQLException {
+	 public String saveDocument(@RequestParam("BODY") String doctPayload,@RequestParam(value="DOCUMENT",required=false) MultipartFile attachedFile) throws IOException, SerialException, SQLException {
 		 Attachement doc = (Attachement) JsonUtil.converStringToObject(doctPayload, Attachement.class);
 		 byte [] bytedata = attachedFile.getBytes();
 		 Blob myBlob = new SerialBlob(bytedata);
 		 doc.setContent(myBlob);
-		 doc.setCreatedDate(LocalDateTime.now().toString());
+		 doc.setCreatedDate(StringDateConverter.getTimeStamp());
 		 
 		 documentDao.save(doc);
-		 return new ResponseEntity <>(HttpStatus.OK).ok("success");
+		 return doc.getCreatedDate();
 	 }
 	 
 	 @GetMapping("/doc-next-no/{pageId}")

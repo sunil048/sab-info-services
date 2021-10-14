@@ -96,7 +96,7 @@ public class PageController {
 	@GetMapping("/pageList/{bookId}")
 	public  List<Page> getPageListByBookId(@PathVariable("bookId") String bookId){
 		log.info("Getting page List for given book id "+bookId);
-		return  pageRepo.getPageListByBookId(bookId);
+		return  pageRepo.getPageListByBookIdOrderByPageNoAsc(bookId);
 		
 	}
 	

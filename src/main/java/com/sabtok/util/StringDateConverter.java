@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 import org.springframework.format.datetime.joda.LocalDateTimeParser;
@@ -39,13 +40,12 @@ public class StringDateConverter {
 	public static void main(String[] args) throws ParseException {
 		String date1 = "17-04-2017 21:40:05";
 		String date2 = "17-04-2017";
-		//getDateFromString(LocalDateTime);
-		System.out.println(LocalDateTime.now());
+		getDateFromString(date2);
+		//System.out.println(LocalDateTime.now());
+		//getTimeStamp();
 	}
 	
 	public static String getTimeStamp() {
-		LocalDateTime localDateTime = LocalDateTime.now();
-		Timestamp timsStamp = Timestamp.valueOf(localDateTime);
-		return timsStamp.toString();
+		return DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss").format(LocalDateTime.now());
 	}
 }
