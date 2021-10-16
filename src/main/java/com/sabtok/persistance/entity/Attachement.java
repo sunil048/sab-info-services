@@ -122,6 +122,39 @@ public class Attachement implements Serializable,Comparable<Attachement> {
 	@Column(name="CONTENT")
 	@Lob
 	private Blob content;
+	
+	@Column(name = "FILE_TYPE")
+	private String fileType;
+	
+	@Column(name="FILE_SIZE",columnDefinition = "double default 0.0")
+	private double size;
+	
+	@Column(name="FILE_NAME")
+	private String fileName;
+	
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+
+	public String getFileType() {
+		return fileType;
+	}
+
+	public void setFileType(String fileType) {
+		this.fileType = fileType;
+	}
+
+	public double getSize() {
+		return size;
+	}
+
+	public void setSize(double size) {
+		this.size = size;
+	}
 
 	public int compareTo(Attachement o) {
 		return (this.attachementNo)-o.getAttachementNo();

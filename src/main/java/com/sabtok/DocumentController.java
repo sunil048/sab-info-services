@@ -93,7 +93,9 @@ public class DocumentController {
 		 Blob myBlob = new SerialBlob(bytedata);
 		 doc.setContent(myBlob);
 		 doc.setCreatedDate(StringDateConverter.getTimeStamp());
-		 
+		 doc.setFileName(attachedFile.getOriginalFilename());
+		 doc.setSize(attachedFile.getSize()/1024);
+		 doc.setFileType(attachedFile.getContentType());
 		 documentDao.save(doc);
 		 return doc.getCreatedDate();
 	 }
