@@ -36,7 +36,7 @@ import com.sabtok.util.StringDateConverter;
 
 @RestController
 @RequestMapping("/doc")
-@CrossOrigin("*")
+@CrossOrigin("http://localhost:4000")
 public class DocumentController {
 	
 	@Autowired

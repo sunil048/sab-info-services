@@ -35,7 +35,7 @@ import com.sabtok.util.SabInfoUtil;
 @RequestMapping("/book")
 @EnableJpaRepositories
 @ComponentScan(basePackages= {"com.sabtok.persistance.dao","com.sabtok.util.*"})
-@CrossOrigin("*")
+@CrossOrigin("http://localhost:4000")
 @ControllerAdvice
 public class BookControler {
 	
