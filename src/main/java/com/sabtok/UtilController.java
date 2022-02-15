@@ -52,6 +52,9 @@ public class UtilController {
 		return timsStamp.toString();
 	}
 	
+	
+	
+	
 	@GetMapping("/appinfo")
 	public Object getApplicationProperties() throws IOException, InterruptedException, SQLException {
 		Map<String,Object> appproperties = new LinkedHashMap();
