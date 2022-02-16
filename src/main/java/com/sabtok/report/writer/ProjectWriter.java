@@ -111,11 +111,8 @@ public class ProjectWriter {
 	         
 	        Font font = FontFactory.getFont(FontFactory.HELVETICA);
 	        font.setColor(Color.WHITE);
-	         
 	        cell.setPhrase(new Phrase("REPORT_ID", font));
-	         
 	        table.addCell(cell);
-	         
 	        cell.setPhrase(new Phrase("REPORT_NAME", font));
 	        table.addCell(cell);
 	    }
