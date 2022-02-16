@@ -2,12 +2,17 @@ package com.sabtok.report;
 
 import java.time.LocalDateTime;
 import org.bson.Document;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.PlmException;
 import com.sabtok.persistance.mongo.MangoDAO;
 import com.sabtok.report.service.ReportHistory;
 
 public class TaskJobCreatorThread implements Runnable{
 
+	Logger log = LoggerFactory.getLogger(TaskJobCreatorThread.class);
+	
 	ReportData reportData;
 	private MangoDAO mangoDAO;
 	
@@ -19,16 +24,19 @@ public class TaskJobCreatorThread implements Runnable{
 
 	@Override
 	public void run() {
+		log.info("Trigered the thread "+Thread.currentThread().getName());
 		createTaskJob();
 		try {
+			log.info("Sleeping thread "+Thread.currentThread().getName());
 			Thread.sleep(10000);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
+			log.error(Thread.currentThread().getName()+" Error while executing thread ",e);
 			e.printStackTrace();
 		}
 	}
 	
 	public void createTaskJob() {
+		log.debug(Thread.currentThread().getName()+" connecting to mongo db");
 		   mangoDAO.setDbName("reports");
 		   mangoDAO.setCollectionName("taskjobs");
 		   Document filter = new Document();
@@ -37,7 +45,10 @@ public class TaskJobCreatorThread implements Runnable{
 			   Document doc = new Document();
 			   doc.append("STATUS", "DRAFT");
 			   doc.append("DESCRIPTION", "Initiated trigger process");
-			   doc.append("JOB_ID", reportData.taskjobId);
+			   if (reportData.taskjobId == null)
+				   doc.append("JOB_ID", "JOB"+ReportUtil.getJobId());
+			   else
+				   doc.append("JOB_ID", reportData.taskjobId);
 			   doc.append("REPORT_ID", reportData.reportId);
 			   doc.append("REPORT_NAME", reportData.reportname);
 			   doc.append("COMPONENT", reportData.component);
@@ -55,9 +66,9 @@ public class TaskJobCreatorThread implements Runnable{
 					e.printStackTrace();
 				}
 				ReportHistory.addLog(reportData.reportId, "DRFT", "Created Task job "+doc.getString("JOB_ID"));
-				  
+				log.info(Thread.currentThread().getName()+" project job created "+doc.getString("JOB_ID"));  
 		   } else {
-			   System.out.println("The task job already created.");
+			   log.info("Project job already created.");
 		   }
 	}
 	

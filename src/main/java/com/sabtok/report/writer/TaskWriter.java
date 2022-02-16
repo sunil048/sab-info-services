@@ -19,6 +19,7 @@ import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
 import com.sabtok.persistance.mongo.MangoDAO;
+import com.sabtok.report.ReportUtil;
 
 @Component
 public class TaskWriter    {
@@ -41,14 +42,8 @@ public class TaskWriter    {
          
         cell.setPhrase(new Phrase("REPORT_NAME", font));
         table.addCell(cell);
-         
-		/*
-		 * cell.setPhrase(new Phrase("Full Name", font)); table.addCell(cell);
-		 * 
-		 * cell.setPhrase(new Phrase("Roles", font)); table.addCell(cell);
-		 * 
-		 * cell.setPhrase(new Phrase("Enabled", font)); table.addCell(cell);
-		 */      
+        cell.setPhrase(new Phrase("Generated Date", font));
+        table.addCell(cell);
     }
 	
 	private void writeTableTasklist(PdfPTable table) {
@@ -58,6 +53,7 @@ public class TaskWriter    {
          
         Font font = FontFactory.getFont(FontFactory.TIMES);
         font.setColor(Color.WHITE);
+        font.setSize(10);
         
         cell.setPhrase(new Phrase("SL NO", font));
         table.addCell(cell);
@@ -81,6 +77,7 @@ public class TaskWriter    {
 	private void writeTableData(PdfPTable table) {
             table.addCell(taskJobDocument.getString("REPORT_ID"));
             table.addCell(taskJobDocument.getString("REPORT_NAME"));
+            table.addCell(ReportUtil.getTimeStamp());
     }
 	
 	private void writeTableTasklistData(PdfPTable table) {
@@ -105,7 +102,7 @@ public class TaskWriter    {
          
         document.open();
         Font font = FontFactory.getFont(FontFactory.HELVETICA_BOLD);
-        font.setSize(18);
+        font.setSize(12);
         font.setColor(Color.BLUE);
          
         Paragraph p = new Paragraph("TASK REPORT", font);
@@ -113,10 +110,10 @@ public class TaskWriter    {
          
         document.add(p);
          
-        PdfPTable table = new PdfPTable(2);
+        PdfPTable table = new PdfPTable(3);
         table.setWidthPercentage(100f);
         //table.setWidths(new float[] {1.5f, 3.5f, 3.0f, 3.0f, 1.5f});
-        table.setWidths(new float[] {1.5f, 3.5f});
+        table.setWidths(new float[] {1.5f, 3.5f,2.5f});
         table.setSpacingBefore(10);
          
         writeTableHeader(table);
@@ -129,7 +126,7 @@ public class TaskWriter    {
         document.add(p1);
         PdfPTable taskListTable = new PdfPTable(7);
         taskListTable.setWidthPercentage(100f);
-        taskListTable.setWidths(new float[] {1.5f,3.5f, 3.5f, 3.0f, 3.0f, 3.5f,2.5f});
+        taskListTable.setWidths(new float[] {1.5f,3.5f, 5.5f, 3.0f, 3.0f, 2.5f,2.5f});
         taskListTable.setSpacingBefore(10);
         
         writeTableTasklist(taskListTable);

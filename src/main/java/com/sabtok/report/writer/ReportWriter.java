@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import com.lowagie.text.DocumentException;
 import com.sabtok.persistance.mongo.MangoDAO;
+import com.sabtok.report.exception.ReportGenerateException;
 
 @Component
 public class ReportWriter {
@@ -24,7 +25,7 @@ public class ReportWriter {
 	@Autowired
 	ProjectWriter projectWriter;
 	
-	public void taskReportWriter(HttpServletResponse response, String reportId, String component) {
+	public void taskReportWriter(HttpServletResponse response, String reportId, String component) throws ReportGenerateException {
 		mangoDao.setDbName("reports");
 		if (component.equals("TASK"))
 			mangoDao.setCollectionName("taskjobs");
@@ -34,6 +35,8 @@ public class ReportWriter {
 		//filter.append("STATUS", "WRITER");
 		filter.append("REPORT_ID", reportId);
 		List<Document>docList = mangoDao.findByQuery(filter);
+		if (docList.isEmpty())
+			throw new ReportGenerateException("task List is empty");
 		try {
 			if (component.equals("TASK"))
 					taskWriter.export(response,docList.get(0));
@@ -44,6 +47,8 @@ public class ReportWriter {
 				jobfilter.append("REPORT_ID", reportId);
 				jobfilter.append("JOB_ID", taskJobId);
 				List<Document> taskJobdoc = mangoDao.findByQuery(jobfilter);
+				if (taskJobdoc.isEmpty())
+					throw new ReportGenerateException("task List is empty");
 				projectWriter.export(response, docList.get(0),taskJobdoc.get(0));
 			}
 				

@@ -5,18 +5,23 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import org.bson.Document;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 import com.PlmException;
 import com.mongodb.BasicDBObject;
 import com.sabtok.JobRunner;
+import com.sabtok.ReportController;
 import com.sabtok.persistance.mongo.MangoDAO;
 import com.sabtok.util.JsonUtil;
 import com.sabtok.util.RestConfig;
 
 public class ProjectJobRunnerThread extends JobRunner implements Runnable{
 
+	Logger log = LoggerFactory.getLogger(ProjectJobRunnerThread.class);
+	
 	MangoDAO mangoDAO ;
 	RestTemplate restTemplate;
 	private String projectBaseURL="http://localhost:8080/sab-plm-services-2.4/project/details";
@@ -32,19 +37,24 @@ public class ProjectJobRunnerThread extends JobRunner implements Runnable{
 
 	@Override
 	public void run() {
+		log.info("Trigered the thread "+Thread.currentThread().getName());
 		processProjectJobs();
+		log.info("Completed thread "+Thread.currentThread().getName());
 	}
 	
 	public void processProjectJobs(){
+		log.debug(Thread.currentThread().getName()+"Processing project job "+doc.getString("JOB_ID"));
 		boolean update = false;
 		ReportData reportData = new ReportData();
 		if (! doc.containsKey("PROJECT_DATA")) {
 			String url = projectBaseURL+"/"+doc.getString("PROJECT_ID");
-			System.out.println(url);
+			//System.out.println(url);
+			log.debug(Thread.currentThread().getName()+url);
 			ResponseEntity<String> response  = restTemplate.getForEntity(url , String.class);
 			String json = response.getBody();
-			System.out.println(json);
+			//System.out.println(json);
 			doc.append("PROJECT_DATA", JsonUtil.converStringToMap(json));
+			log.debug(Thread.currentThread().getName()+"Adding PROJECT_DATA");
 			update = true;
 		}
 		if (! doc.containsKey("TASK_JOB_ID")) {
@@ -62,6 +72,7 @@ public class ProjectJobRunnerThread extends JobRunner implements Runnable{
 			reportData.createdBy= "PROJECT_JOB_RUNNER_THREAD";
 			doc.append("TASK_JOB_ID", reportData.taskjobId);
 			update = true;
+			log.debug(Thread.currentThread().getName()+"Creating task job for the project report "+reportData.taskjobId);
 			Thread  t = new Thread(new TaskJobCreatorThread(reportData,  mangoDAO));
 			t.start();
 		}
@@ -77,10 +88,11 @@ public class ProjectJobRunnerThread extends JobRunner implements Runnable{
 				searchQuery.append("_id", doc.get("_id"));
 				mangoDAO.setCollectionName("projectjobs");
 				mangoDAO.update(searchQuery,updateQuery);
+				log.debug(Thread.currentThread().getName()+"updated project job doc");
 			}
 			
 		} catch (PlmException e) {
-			// TODO Auto-generated catch block
+			log.error(Thread.currentThread().getName(),e);
 			e.printStackTrace();
 		}
 	}

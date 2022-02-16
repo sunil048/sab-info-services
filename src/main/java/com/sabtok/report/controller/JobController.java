@@ -28,14 +28,14 @@ public class JobController {
 
 	@GetMapping("/details/{reportId}")
 	public Object getJobDetails(@PathVariable("reportId") String reportId) {
-		logger.info("Recieved the request to get job details.");
+		logger.info("Recived the request to get job details.");
 		return jobService.getJobList(reportId);
 	}
 	
 	@GetMapping("/trigger")
 	public void triggerJobs() {
-		logger.info("Recieved the request for job trigger.");
-		//jobRunner.processProjectJobs();
+		logger.info("Recived the request for job trigger.");
+		jobRunner.processProjectJobs();
 		jobRunner.processTaskJobs();
 	}
 }

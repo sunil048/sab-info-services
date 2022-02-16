@@ -32,7 +32,7 @@ public class ProjectWriter {
          
         document.open();
         Font font = FontFactory.getFont(FontFactory.HELVETICA_BOLD);
-        font.setSize(18);
+        font.setSize(12);
         font.setColor(Color.BLUE);
          
         Paragraph p = new Paragraph("PROJECT REPORT", font);
@@ -155,15 +155,16 @@ public class ProjectWriter {
 		private void writeTableTasklistData(PdfPTable table) {
 			List <org.bson.Document> taskList = (List<org.bson.Document>) taskJobdoc.get("TASK_DATA");
 			int count = 1;
-			for (org.bson.Document taskDoc: taskList) {
-				 table.addCell(String.valueOf(count++));
-				 table.addCell(taskDoc.getString("taskid"));
-			     table.addCell(taskDoc.getString("name"));
-			     table.addCell(taskDoc.getString("projectName"));
-			     table.addCell(taskDoc.getString("openDate"));
-			     table.addCell(taskDoc.getString("taskType"));
-			     table.addCell(taskDoc.getString("status"));
-			     
+			if (taskList != null) {
+				for (org.bson.Document taskDoc: taskList) {
+					 table.addCell(String.valueOf(count++));
+					 table.addCell(taskDoc.getString("taskid"));
+				     table.addCell(taskDoc.getString("name"));
+				     table.addCell(taskDoc.getString("projectName"));
+				     table.addCell(taskDoc.getString("openDate"));
+				     table.addCell(taskDoc.getString("taskType"));
+				     table.addCell(taskDoc.getString("status"));
+				}
 			}
 		}
 }

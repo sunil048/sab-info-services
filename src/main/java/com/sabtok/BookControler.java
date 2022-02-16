@@ -6,7 +6,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import org.apache.log4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -39,7 +39,7 @@ import com.sabtok.util.SabInfoUtil;
 @ControllerAdvice
 public class BookControler {
 	
-	Logger log = Logger.getLogger(BookControler.class);
+	org.slf4j.Logger log = LoggerFactory.getLogger(BookControler.class);
 	
 	@Autowired
 	BookDao bookDao;

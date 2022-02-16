@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.bson.Document;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
@@ -15,6 +17,8 @@ import com.sabtok.util.JsonUtil;
 
 public class TasktJobRunnerThread implements Runnable{
 
+	Logger log = LoggerFactory.getLogger(ProjectJobRunnerThread.class);
+	
 	MangoDAO mangoDAO ;
 	RestTemplate restTemplate;
 	private String taskBaseURL="http://localhost:8080/sab-plm-services-2.4/task/list";
@@ -30,9 +34,13 @@ public class TasktJobRunnerThread implements Runnable{
 
 	@Override
 	public void run() {
+		log.info("Trigered the thread "+Thread.currentThread().getName());
 		processTaskJobs();		
+		log.info("Completed thread "+Thread.currentThread().getName());
+		
 	}
 	public void processTaskJobs(){
+		log.debug(Thread.currentThread().getName()+"Processing task job "+doc.getString("JOB_ID"));
 		boolean update = false;
 		List<Document> taskDocList = new ArrayList();
 		if (!doc.containsKey("TASK_DATA")) {
@@ -51,6 +59,7 @@ public class TasktJobRunnerThread implements Runnable{
 				   }
 			      // System.out.println(taskDocList);
 				doc.append("TASK_DATA", taskDocList);
+				log.debug(Thread.currentThread().getName()+"Adding TASK_DATA ");
 				update = true;
 			  }
 			  if (doc.getString("COMPONENT").equals("PROJECT")) {
@@ -73,6 +82,7 @@ public class TasktJobRunnerThread implements Runnable{
 						if (taskDoc.getString("projectName") != null && taskDoc.getString("projectName").equals(projectName))
 							taskDocList.add(taskDoc);
 					   }
+				       log.debug(Thread.currentThread().getName()+"Adding TASK_DATA of the project tasks "+projectId+" "+projectName);
 				       update = true;
 			  }
 		 try {
@@ -89,9 +99,10 @@ public class TasktJobRunnerThread implements Runnable{
 					
 					mangoDAO.setCollectionName("taskjobs");
 					mangoDAO.update(searchQuery, updateQuery);
+					log.debug(Thread.currentThread().getName()+"updated task job doc");
 			 }
 			} catch (PlmException e) {
-				// TODO Auto-generated catch block
+				log.error(Thread.currentThread().getName(),e);
 				e.printStackTrace();
 			}
 		}

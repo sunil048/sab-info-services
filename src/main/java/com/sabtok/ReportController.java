@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.sabtok.persistance.entity.Report;
 import com.sabtok.report.JobCreator;
 import com.sabtok.report.ReportUtil;
+import com.sabtok.report.exception.ReportGenerateException;
 import com.sabtok.report.service.ReportHistory;
 import com.sabtok.report.writer.ReportWriter;
 import com.sabtok.services.ReportService;
@@ -28,6 +31,8 @@ import com.sabtok.services.ReportService;
 @CrossOrigin("*")
 public class ReportController {
 
+	Logger log = LoggerFactory.getLogger(ReportController.class);
+	
 	@Autowired
 	JobCreator jobCreator;
 	
@@ -41,6 +46,7 @@ public class ReportController {
 	
 	@GetMapping("/create-jobs")
 	public void test() {
+		log.info("Creating jos reuest recieved.");
 		jobCreator.triggerJobCreator();
 		//reportGenerator.triggerProjectReportSchedulerJob();
 	}
@@ -77,7 +83,7 @@ public class ReportController {
 	*/
 	
 	@GetMapping("/downloadpdf/{component}/{reportId}")
-	public void gettaskReport(HttpServletResponse reponse,@PathVariable("component") String component,@PathVariable("reportId") String reportId) {
+	public void gettaskReport(HttpServletResponse reponse,@PathVariable("component") String component,@PathVariable("reportId") String reportId) throws ReportGenerateException {
 		er.taskReportWriter(reponse,reportId,component);
 	}
 	

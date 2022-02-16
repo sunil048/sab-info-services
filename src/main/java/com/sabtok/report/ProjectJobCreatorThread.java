@@ -9,6 +9,8 @@ import java.util.Map;
 import javax.sql.DataSource;
 
 import org.bson.Document;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import com.PlmException;
+import com.sabtok.ReportController;
 import com.sabtok.persistance.mongo.MangoDAO;
 import com.sabtok.report.service.ReportHistory;
 import com.sabtok.util.IDGenerator;
@@ -25,6 +28,8 @@ import com.sabtok.util.RestCalls;
 
 public class ProjectJobCreatorThread implements Runnable {
 
+	Logger log = LoggerFactory.getLogger(ProjectJobCreatorThread.class);
+	
 	private MangoDAO mangoDAO;
 	private ReportData reportData;
 	
@@ -36,15 +41,16 @@ public class ProjectJobCreatorThread implements Runnable {
 	@Override
 	public void run() {
 			try {
+				log.info("Trigered the thread "+Thread.currentThread().getName());
 				projectJobCreator(reportData);
 				Thread.sleep(10000);
 			} catch (PlmException | InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				log.error(Thread.currentThread().getName()+" Error while executing thread ",e);
 			}
 	}
 
 	private void projectJobCreator(ReportData reportData) throws PlmException {
+	   log.debug(Thread.currentThread().getName()+" connecting to mongo db");
 	   mangoDAO.setDbName("reports");
 	   mangoDAO.setCollectionName("projectjobs");
 	   Document filter = new Document();
@@ -66,8 +72,9 @@ public class ProjectJobCreatorThread implements Runnable {
 		   mangoDAO.setCollectionName("projectjobs");
 		   mangoDAO.insertOne(doc);
 		   ReportHistory.addLog(reportData.reportId, "DRAFT", "Created project job "+doc.getString("JOB_ID"));
+		   log.info(Thread.currentThread().getName()+" project job created "+doc.getString("JOB_ID"));
 	   } else {
-		   System.out.println("Project job already created.");
+		   log.info("Project job already created.");
 	   }
 	   
 	}
