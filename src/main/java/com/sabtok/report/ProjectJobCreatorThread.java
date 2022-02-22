@@ -1,30 +1,11 @@
 package com.sabtok.report;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.time.LocalDateTime;
-import java.util.Map;
-
-import javax.sql.DataSource;
-
 import org.bson.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
-
 import com.PlmException;
-import com.sabtok.ReportController;
 import com.sabtok.persistance.mongo.MangoDAO;
 import com.sabtok.report.service.ReportHistory;
-import com.sabtok.util.IDGenerator;
-import com.sabtok.util.JsonUtil;
-import com.sabtok.util.RestCalls;
-
 
 public class ProjectJobCreatorThread implements Runnable {
 

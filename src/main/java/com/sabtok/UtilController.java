@@ -57,7 +57,7 @@ public class UtilController {
 	
 	@GetMapping("/appinfo")
 	public Object getApplicationProperties() throws IOException, InterruptedException, SQLException {
-		Map<String,Object> appproperties = new LinkedHashMap();
+		Map<String,Object> appproperties = new LinkedHashMap<String,Object>();
 		//appproperties.put("APP_ENVIRONMENT", AppConstants.getApp_environment());
 		appproperties.put("OS", System.getProperty("os.name"));
 		appproperties.put("OS_VERSION", System.getProperty("os.version"));

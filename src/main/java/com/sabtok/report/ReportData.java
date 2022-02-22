@@ -18,6 +18,7 @@ import java.io.Serializable;
 		String status;
 		String inputData;
 		String taskjobId;
+		public String exceptionjobId;
 		@Override
 		public String toString() {
 			return "ReportData [reportId=" + reportId + ", reportname=" + reportname + ", createdDate=" + createdDate

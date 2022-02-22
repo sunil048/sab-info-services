@@ -73,7 +73,7 @@ public class MangoDAO<T> implements BaseDAO<T> {
 		} finally {
 			closeConnection();
 		}
-		return String.format("Uploaded Document %d successfully"+inputDocument.get("_id").toString());
+		return String.format("Uploaded Document %s successfully",inputDocument.get("_id").toString());
 	}
 	
 	public String update(BasicDBObject searchQuery,BasicDBObject updateQuery) throws PlmException {
@@ -84,7 +84,7 @@ public class MangoDAO<T> implements BaseDAO<T> {
 		} finally {
 			closeConnection();
 		}
-		return String.format("Uploaded Document %d successfully"+searchQuery.get("_id").toString());
+		return String.format("Uploaded Document %s successfully" ,searchQuery.get("_id").toString());
 	}
 
 	

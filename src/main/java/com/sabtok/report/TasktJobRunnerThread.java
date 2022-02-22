@@ -59,7 +59,7 @@ public class TasktJobRunnerThread implements Runnable{
 				   }
 			      // System.out.println(taskDocList);
 				doc.append("TASK_DATA", taskDocList);
-				log.debug(Thread.currentThread().getName()+"Adding TASK_DATA ");
+				log.debug(Thread.currentThread().getName()+" Adding TASK_DATA ");
 				update = true;
 			  }
 			  if (doc.getString("COMPONENT").equals("PROJECT")) {
@@ -82,7 +82,7 @@ public class TasktJobRunnerThread implements Runnable{
 						if (taskDoc.getString("projectName") != null && taskDoc.getString("projectName").equals(projectName))
 							taskDocList.add(taskDoc);
 					   }
-				       log.debug(Thread.currentThread().getName()+"Adding TASK_DATA of the project tasks "+projectId+" "+projectName);
+				       log.debug(Thread.currentThread().getName()+" Adding TASK_DATA of the project tasks "+projectId+" "+projectName);
 				       update = true;
 			  }
 		 try {

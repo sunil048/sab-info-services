@@ -40,7 +40,7 @@ public class JobCreator {
 	
 	public void triggerJobCreator() {
 		 
-		log.debug("Creating jobs.");
+		log.debug(" Creating jobs.");
 		Connection con;
 		try {
 			// creates a thread pool with MAX_T no. of 

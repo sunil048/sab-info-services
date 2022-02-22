@@ -31,7 +31,6 @@ import com.sabtok.util.StringDateConverter;
 @RequestMapping("/page")
 @EnableJpaRepositories
 @ComponentScan(basePackages= {"com.sabtok.persistance.dao","com.sabtok.util.*"})
-@CrossOrigin("http://localhost:4000")
 public class PageController {
 
 	org.slf4j.Logger log = LoggerFactory.getLogger(PageController.class);

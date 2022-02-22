@@ -3,12 +3,8 @@ package com.sabtok;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
 import org.bson.Document;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
-
 import com.sabtok.persistance.mongo.MangoDAO;
 import com.sabtok.report.ProjectJobRunnerThread;
 import com.sabtok.report.TasktJobRunnerThread;

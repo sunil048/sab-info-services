@@ -1,15 +1,10 @@
 package com.sabtok.report.service;
 
 import org.bson.Document;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import com.sabtok.persistance.mongo.MangoDAO;
 import com.sabtok.util.StringDateConverter;
 
-
 public class ReportHistory {
-
 	
 	private static MangoDAO mongoDao = new MangoDAO(); 
 	
