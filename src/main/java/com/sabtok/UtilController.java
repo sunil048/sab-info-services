@@ -24,7 +24,7 @@ import com.sabtok.util.IDGenerator;
 
 @RestController
 @RequestMapping("/util")
-@CrossOrigin("http://localhost:4000")
+@CrossOrigin("*")
 public class UtilController {
 	
 	@Autowired
