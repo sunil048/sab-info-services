@@ -39,7 +39,6 @@ import com.sabtok.util.StringDateConverter;
 @CrossOrigin("*")
 public class DocumentController {
 	
-	@Autowired
 	DocumentDao documentDao;
 	
 	@GetMapping("/list")

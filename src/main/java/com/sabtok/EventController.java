@@ -21,11 +21,8 @@ import com.sabtok.persistance.entity.Event;
 
 @RestController
 @RequestMapping("/event")
-@EnableJpaRepositories
-@ComponentScan(basePackages= {"com.sabtok.persistance.dao"})
 public class EventController {
 	
-	@Autowired
 	EventDao logDao;
 	@GetMapping("/all")
 	public List<Event> getBooks(){

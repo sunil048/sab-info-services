@@ -29,13 +29,10 @@ import com.sabtok.util.StringDateConverter;
 
 @RestController
 @RequestMapping("/page")
-@EnableJpaRepositories
-@ComponentScan(basePackages= {"com.sabtok.persistance.dao","com.sabtok.util.*"})
 @CrossOrigin("*")
 public class PageController {
 
 	Logger log = Logger.getLogger(PageController.class);
-	@Autowired
 	PageDao pageRepo;
 	
 	@Autowired

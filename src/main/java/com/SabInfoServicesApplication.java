@@ -7,12 +7,14 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @SpringBootApplication
 @EnableAutoConfiguration
-@EntityScan(basePackages= {"com.sabtok.persistance.entity","com.sabinfo"})
-@ComponentScan(basePackages= {"com"})
+@ComponentScan(basePackages = {"com.sabtok"})
+@EnableJpaRepositories("com.sabtok.persistance.dao.*")
+@EntityScan("com.sabtok.persistance.entity.*")
 public class SabInfoServicesApplication extends SpringBootServletInitializer  {
 
 	public static void main(String[] args) {

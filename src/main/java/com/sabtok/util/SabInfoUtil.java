@@ -12,7 +12,7 @@ import com.sabtok.persistance.entity.EventAction;
 @Component
 public class SabInfoUtil {
 
-	@Autowired
+	
 	EventDao logDao;
 	public void updateLogFields(Event log) {
 		switch(log.getAction()) {

@@ -30,8 +30,8 @@ public class UtilController {
 	@Autowired
 	private Environment environment;
 	
-	@Autowired
-	BuildProperties buildProperties;
+	//@Autowired
+	//BuildProperties buildProperties;
 	
 	@Autowired
 	private DataSource dataSorces;
@@ -69,8 +69,8 @@ public class UtilController {
 		appproperties.put("java.vm.vendor", environment.getProperty("java.vm.vendor"));
 		appproperties.put("java.vm.version ", environment.getProperty("java.vm.version "));
 		appproperties.put("java.vm.specification.name", environment.getProperty("java.vm.specification.name"));
-		appproperties.put("ARTIFACT", buildProperties.getArtifact());
-		appproperties.put("VSRION", buildProperties.getVersion());
+		//appproperties.put("ARTIFACT", buildProperties.getArtifact());
+		//appproperties.put("VSRION", buildProperties.getVersion());
 		appproperties.put("PROJECT_PATH", Thread.currentThread().getContextClassLoader().getResource("").getPath());
 		appproperties.put("BRANCH", getCurrentGitBranch());
 		
