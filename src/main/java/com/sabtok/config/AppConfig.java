@@ -1,4 +1,4 @@
-package com;
+package com.sabtok.config;
 
 import java.util.Properties;
 

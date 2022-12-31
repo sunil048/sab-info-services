@@ -1,4 +1,4 @@
-package com.sabtok;
+package com.sabtok.controller;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -12,8 +12,7 @@ import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.rowset.serial.SerialBlob;
 import javax.sql.rowset.serial.SerialException;
-import javax.validation.Valid;
-
+//import javax.validation.Valid;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,8 +27,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.sabtok.persistance.dao.DocumentDao;
-import com.sabtok.persistance.entity.Attachement;
+import com.sabtok.entity.Attachement;
+import com.sabtok.services.DocumentService;
 import com.sabtok.util.JsonUtil;
 import com.sabtok.util.StringDateConverter;
 
@@ -39,33 +38,28 @@ import com.sabtok.util.StringDateConverter;
 @CrossOrigin("*")
 public class DocumentController {
 	
-	DocumentDao documentDao;
+	@Autowired
+	DocumentService documentService;
 	
 	@GetMapping("/list")
 	public List <Attachement> getDocumentList(){
-		return documentDao.findAll();
+		return documentService.getDocumentList();
 	}
 	
 	@GetMapping("/list/{pageid}")
 	public List <Attachement> getDocumentListForPage(@PathVariable("pageid") String pageId){
-		return documentDao.getDocumentListByPageIdOrderByAttachementNoAsc(pageId);
+		return documentService.getDocumentListForPage(pageId);
 	}
 	
 	@PostMapping("/upload")
-	public Attachement uploadFile(@Valid @RequestBody Attachement attachement) {
+	public Attachement uploadFile(@RequestBody Attachement attachement) {
 		System.out.println("uploading file");
-		return documentDao.save(attachement);
+		return documentService.uploadFile(attachement);
 	}
-	
-	@GetMapping("/test")
-	public String test() {
-		return "success";
-	}
-
 	
 	 @GetMapping("/downloadAttachment/{attachementId}")
-	    public String downloadBookPhotograph(@PathVariable("attachementId") String attachementId, HttpServletResponse response) {
-	        Attachement doc  = documentDao.getDocumentByAttachementId(attachementId);
+	 public String downloadBookPhotograph(@PathVariable("attachementId") String attachementId, HttpServletResponse response) {
+	        Attachement doc  = documentService.getDocumentByAttachementId(attachementId);
 	        try {
 	            if (doc.getContent()!=null) {
 	                response.setHeader("Content-Disposition", "inline;filename=\"" +doc.getTitle()+ "\"");
@@ -82,26 +76,17 @@ public class DocumentController {
 	        } catch (SQLException e) {
 	            e.printStackTrace();
 	        } 
-	        return null;
+ 	        return null;
 	    }
 
 	 @PostMapping("/save")
 	 public String saveDocument(@RequestParam("BODY") String doctPayload,@RequestParam(value="DOCUMENT",required=false) MultipartFile attachedFile) throws IOException, SerialException, SQLException {
-		 Attachement doc = (Attachement) JsonUtil.converStringToObject(doctPayload, Attachement.class);
-		 byte [] bytedata = attachedFile.getBytes();
-		 Blob myBlob = new SerialBlob(bytedata);
-		 doc.setContent(myBlob);
-		 doc.setCreatedDate(StringDateConverter.getTimeStamp());
-		 doc.setFileName(attachedFile.getOriginalFilename());
-		 doc.setSize(attachedFile.getSize()/1024);
-		 doc.setFileType(attachedFile.getContentType());
-		 documentDao.save(doc);
-		 return doc.getCreatedDate();
+		return documentService.saveDocument(doctPayload, attachedFile);
 	 }
 	 
 	 @GetMapping("/doc-next-no/{pageId}")
 	 public Integer getPageNumber(@PathVariable("pageId") String pageId) {
-		 return documentDao.getTotalPageCount(pageId)+1;
+		 return documentService.getPageNumber(pageId)+1;
 	 }
 	/*@PostMapping("/upload1")
 	public String uploadFile1(@RequestParam("file") MultipartFile file) {

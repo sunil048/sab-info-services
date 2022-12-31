@@ -2,23 +2,25 @@ package com.sabtok.services.impl;
 
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-import com.sabtok.BookControler;
-import com.sabtok.persistance.dao.BookDao;
-import com.sabtok.persistance.entity.Book;
-import com.sabtok.persistance.entity.Event;
-import com.sabtok.persistance.entity.EventAction;
+import com.sabtok.dao.BookDao;
+import com.sabtok.entity.Book;
+import com.sabtok.entity.Event;
+import com.sabtok.entity.EventAction;
 import com.sabtok.services.BookService;
 import com.sabtok.util.SabInfoUtil;
 
-@Service
-public class BookServiceImpl implements BookService{
+@Component
+public class BookServiceImpl implements BookService {
 
-	Logger log = Logger.getLogger(BookControler.class);
+	Logger log = LoggerFactory.getLogger(BookServiceImpl.class);
 	
+	@Autowired
 	BookDao bookDao;
 	
 	@Autowired
@@ -48,9 +50,10 @@ public class BookServiceImpl implements BookService{
 	}
 
 	@Override
-	public Integer bookNumber() {
+	public Long bookNumber() {
 		System.out.println("calling book number method");
-		return (int) bookDao.count();
+		Long bookNo = bookDao.count();
+		return bookNo/0 ;
 	}
 
 	@Override

@@ -1,4 +1,4 @@
-package com.sabtok.persistance.entity;
+package com.sabtok.entity;
 
 import java.io.Serializable;
 
@@ -8,16 +8,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.hibernate.validator.constraints.NotEmpty;
+//import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name="BOOKS")
-public class Book implements Serializable ,Comparable<Book>{
-	@Override
-	public String toString() {
-		return "Book [bookId=" + bookId + ", bookNo=" + bookNo + ", bookName=" + bookName + ", description="
-				+ description + ", createdDate=" + createdDate + ", createdBy=" + createdBy + "]";
-	}
+public class Book implements Serializable{
 
 	@Id
 	@Column(name="BOOKID")
@@ -29,7 +24,7 @@ public class Book implements Serializable ,Comparable<Book>{
 	private int bookNo;
 	
 	@Column(name="BOOKNAME")
-	@NotEmpty(message="Book name is mandatory")
+	//@NotEmpty(message="Book name is mandatory")
 	private String bookName;
 	
 	@Column(name="DESCRIPTION")
@@ -88,10 +83,16 @@ public class Book implements Serializable ,Comparable<Book>{
 	public void setCreatedBy(String createdBy) {
 		this.createdBy = createdBy;
 	}
+	
+	public int compareTo(Book o) 
+	{ 
+		return  (this.bookName).compareTo(o.getBookName()); // return 0; maintain same order
+	 }
 
-	public int compareTo(Book o) {
-		 return (this.bookName).compareTo(o.getBookName());
-		// return 0; maintain same order
+	@Override
+	public String toString() {
+		return "Book [bookId=" + bookId + ", bookNo=" + bookNo + ", bookName=" + bookName + ", description="
+				+ description + ", createdDate=" + createdDate + ", createdBy=" + createdBy + "]";
 	}
 	
 }

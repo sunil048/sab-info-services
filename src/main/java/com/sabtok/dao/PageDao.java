@@ -1,12 +1,12 @@
-package com.sabtok.persistance.dao;
+package com.sabtok.dao;
 
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.sabtok.persistance.entity.Book;
-import com.sabtok.persistance.entity.Page;
+import com.sabtok.entity.Page;
+
 
 @Repository
 public interface PageDao extends JpaRepository<Page, Long>{

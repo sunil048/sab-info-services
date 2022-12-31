@@ -1,4 +1,4 @@
-package com.sabtok.persistance.entity;
+package com.sabtok.entity;
 
 import java.sql.Date;
 

@@ -18,10 +18,8 @@ import java.util.List;
 
 import org.apache.tomcat.jni.File;
 
-import com.sabtok.persistance.entity.Book;
-import com.sabtok.persistance.entity.Page;
-
-
+import com.sabtok.entity.Book;
+import com.sabtok.entity.Page;
 
 public class DataMigrationTool {
 

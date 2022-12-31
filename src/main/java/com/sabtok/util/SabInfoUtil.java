@@ -5,14 +5,11 @@ import java.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.sabtok.persistance.dao.EventDao;
-import com.sabtok.persistance.entity.Event;
-import com.sabtok.persistance.entity.EventAction;
+import com.sabtok.dao.EventDao;
+import com.sabtok.entity.Event;
 
 @Component
 public class SabInfoUtil {
-
-	
 	EventDao logDao;
 	public void updateLogFields(Event log) {
 		switch(log.getAction()) {

@@ -1,4 +1,4 @@
-package com.sabtok.persistance.entity;
+package com.sabtok.entity;
 import java.io.Serializable;
 import java.sql.Blob;
 import java.sql.Clob;
@@ -17,18 +17,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(value = { "content" })
 public class Attachement implements Serializable,Comparable<Attachement> {
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
-
-	@Override
-	public String toString() {
-		return "Attachement [attachementId=" + attachementId + ", attachementNo=" + attachementNo + ", title=" + title
-				+ ", pageId=" + pageId + ", createdDate=" + createdDate + ", createdBy=" + createdBy + ", content="
-				+ content + "]";
-	}
-
 
 	@Id
 	@Column(name="DOCUMENT_ID")
@@ -49,6 +38,22 @@ public class Attachement implements Serializable,Comparable<Attachement> {
 	
 	@Column(name="CREATED")
 	private String createdDate;
+	
+	@Column(name="AUTHOR")
+	private String createdBy;
+	
+	@Column(name="CONTENT")
+	@Lob
+	private Blob content;
+	
+	@Column(name = "FILE_TYPE")
+	private String fileType;
+	
+	@Column(name="FILE_SIZE",columnDefinition = "double default 0.0")
+	private double size;
+	
+	@Column(name="FILE_NAME")
+	private String fileName;
 	
 	public String getAttachementId() {
 		return attachementId;
@@ -114,23 +119,6 @@ public class Attachement implements Serializable,Comparable<Attachement> {
 	public void setContent(Blob content) {
 		this.content = content;
 	}
-
-
-	@Column(name="AUTHOR")
-	private String createdBy;
-	
-	@Column(name="CONTENT")
-	@Lob
-	private Blob content;
-	
-	@Column(name = "FILE_TYPE")
-	private String fileType;
-	
-	@Column(name="FILE_SIZE",columnDefinition = "double default 0.0")
-	private double size;
-	
-	@Column(name="FILE_NAME")
-	private String fileName;
 	
 	public String getFileName() {
 		return fileName;
@@ -160,6 +148,12 @@ public class Attachement implements Serializable,Comparable<Attachement> {
 		return (this.attachementNo)-o.getAttachementNo();
 	}
 	
+	@Override
+	public String toString() {
+		return "Attachement [attachementId=" + attachementId + ", attachementNo=" + attachementNo + ", title=" + title
+				+ ", pageId=" + pageId + ", createdDate=" + createdDate + ", createdBy=" + createdBy + ", content="
+				+ content + "]";
+	}
 	
 
 }

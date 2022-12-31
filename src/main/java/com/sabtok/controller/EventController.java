@@ -1,8 +1,6 @@
-package com.sabtok;
+package com.sabtok.controller;
 
 import java.util.List;
-
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
@@ -15,9 +13,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sabtok.persistance.dao.EventDao;
-import com.sabtok.persistance.entity.Book;
-import com.sabtok.persistance.entity.Event;
+import com.sabtok.dao.EventDao;
+import com.sabtok.entity.Event;
 
 @RestController
 @RequestMapping("/event")
@@ -31,7 +28,7 @@ public class EventController {
 	
 	@RequestMapping(value="/load",method=RequestMethod.POST)
 	@ResponseBody
-	public String saveBook(@Valid @RequestBody Event log) {
+	public String saveBook(@RequestBody Event log) {
 		System.out.println("calling method and saving entity");
 		System.out.println(log);
 		logDao.save(log);

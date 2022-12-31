@@ -1,12 +1,10 @@
-package com.sabtok;
+package com.sabtok.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -18,44 +16,43 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sabtok.persistance.dao.PageDao;
-import com.sabtok.persistance.entity.Event;
-import com.sabtok.persistance.entity.EventAction;
-import com.sabtok.persistance.entity.Page;
+import com.sabtok.entity.EventAction;
+import com.sabtok.entity.Page;
+import com.sabtok.services.PageService;
 import com.sabtok.util.SabInfoUtil;
 import com.sabtok.util.StringDateConverter;
-
-
 
 @RestController
 @RequestMapping("/page")
 @CrossOrigin("*")
 public class PageController {
 
-	Logger log = Logger.getLogger(PageController.class);
-	PageDao pageRepo;
+	Logger log = LoggerFactory.getLogger(PageController.class);
+	
+	@Autowired
+	PageService pageService;
 	
 	@Autowired
 	SabInfoUtil util;
 	
 	@GetMapping("/all")
 	public List<Page> getAllPagesList(){
-		return pageRepo.findAll();
+		return pageService.getAllPagesList();
 	}
 	
 	@GetMapping("/total")
 	public Long getPageCount() {
-		return pageRepo.count();
+		return pageService.getPageCount();
 	}
 	
 	@GetMapping("/pagecount/{bookId}")
 	public Integer getPageCountForBook(@PathVariable("bookId") String bookId) {
-		return pageRepo.getPageListByBookId(bookId).size();
+		return pageService.getPageListByBookId(bookId).size();
 	}
 	
 	@GetMapping("/details/{pageId}")
 	public Page getPageDetails(@PathVariable("pageId") String pageId) {
-		return pageRepo.getPageDetailsByPageId(pageId);
+		return pageService.getPageDetails(pageId);
 	}
 	
 	@RequestMapping(value="/save",method=RequestMethod.POST)
@@ -66,7 +63,7 @@ public class PageController {
 		//log.setAction(EventAction.CREATED);
 		//util.updateLogFields(log);
 		page.setCreatedDate(StringDateConverter.getTimeStamp());
-		pageRepo.save(page);
+		pageService.creatPage(page);
 		return page.getPageNo();
 	}
 	
@@ -77,7 +74,7 @@ public class PageController {
 		//log.setPageId(page.getPageId());
 		//log.setAction(EventAction.MODIFIED);
 		//util.updateLogFields(log);
-		pageRepo.save(page);
+		pageService.updatePage(page);
 		return EventAction.MODIFIED+" Page "+page.getPageId();
 	}
 	
@@ -85,7 +82,7 @@ public class PageController {
 	public ResponseEntity<Page> getPageDetailsByBookNo(@PathVariable("pageNo") String pageNo){
 		log.info("getPageDetailsByBookId "+pageNo);
 		System.out.println("hello");
-		Page page= pageRepo.findOne(Long.valueOf(pageNo));
+		Page page= pageService.getPageDetailsByBookNo(Long.valueOf(pageNo));
 		return new ResponseEntity<Page>(page, HttpStatus.OK);
 		
 	}
@@ -93,7 +90,7 @@ public class PageController {
 	@GetMapping("/pageList/{bookId}")
 	public  List<Page> getPageListByBookId(@PathVariable("bookId") String bookId){
 		log.info("Getting page List for given book id "+bookId);
-		return  pageRepo.getPageListByBookIdOrderByPageNoAsc(bookId);
+		return  pageService.getPageListByBookId(bookId);
 		
 	}
 	
