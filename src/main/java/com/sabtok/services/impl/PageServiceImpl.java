@@ -1,6 +1,7 @@
 package com.sabtok.services.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -66,9 +67,8 @@ public class PageServiceImpl implements PageService{
 	@Override
 	public Page getPageDetailsByBookNo(Long pageNo) {
 		log.info("getPageDetailsByBookId "+pageNo);
-		System.out.println("hello");
-		Page page= pageRepo.findOne(Long.valueOf(pageNo));
-		return page;
+		Optional<Page> page= pageRepo.findById(Long.valueOf(pageNo));
+		return page.get();
 	}
 
 	@Override

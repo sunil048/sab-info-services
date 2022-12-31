@@ -1,6 +1,7 @@
  	package com.sabtok.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 
@@ -53,7 +54,10 @@ public class BookControler {
 	
 	@GetMapping("/details/{bookId}")
 	public Book getBookDetails(@PathVariable String bookId){
-		return bookService.getBookDetails(bookId);
+		System.out.println("----------------------------------------");
+ 		return Optional.ofNullable(bookService.getBookDetails(bookId)).get()
+        .orElseThrow(IllegalArgumentException::new);
+ 		
 	}
 	
 	

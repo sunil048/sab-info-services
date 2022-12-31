@@ -1,6 +1,7 @@
 package com.sabtok.services.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -63,8 +64,10 @@ public class BookServiceImpl implements BookService {
 	}
 
 	@Override
-	public Book getBookDetails(String bookId) {
-		return bookDao.findOne(bookId);
+	public Optional<Book> getBookDetails(String bookId) {
+		System.out.println("service invoked");
+		Optional<Book> book =  bookDao.findById(bookId);
+		return book;
 	}
 
 }

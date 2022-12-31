@@ -1,6 +1,7 @@
 package com.sabtok.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -13,6 +14,6 @@ public interface BookService {
 	public String updateBook(Book book);
 	public Long bookNumber();
 	public List<Book> getBooks();
-	public Book getBookDetails(String bookId);
+	public Optional<Book> getBookDetails(String bookId);
 	
 }
