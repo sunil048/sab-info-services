@@ -12,7 +12,10 @@ import com.sabtok.entity.Event;
 public class SabInfoUtil {
 	EventDao logDao;
 	public void updateLogFields(Event log) {
-		switch(log.getAction()) {
+	
+	}
+}
+/*	switch(log.getAction()) {
 		
 		case CREATED :
 			log.setCreatedBy(ServicesConstatnt.DEFAULT_USER);
@@ -23,6 +26,6 @@ public class SabInfoUtil {
 			log.setLastModifiedDate((java.sql.Date.valueOf(LocalDate.now())));
 			break;	
 		}
-		logDao.save(log);
-	}
-}
+		//logDao.save(log);
+ * 
+ */

@@ -10,16 +10,13 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @SpringBootApplication
-@EnableAutoConfiguration
-@ComponentScan(basePackages = {"com.sabtok"})
 @EnableJpaRepositories
-@EntityScan("com.sabtok.entity")
 public class SabInfoServicesApplication  {
 	public static void main(String[] args) {
 		SpringApplication.run(SabInfoServicesApplication.class, args);
 	}
 	
-	@RequestMapping("/")
+	@RequestMapping("/status")
 	public String getStatus() {
 		return "Server is up and running.........";
 	}

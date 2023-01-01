@@ -13,15 +13,20 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.sabtok.dao.DocumentDao;
 import com.sabtok.entity.Attachement;
+import com.sabtok.entity.PageEventAction;
 import com.sabtok.services.DocumentService;
 import com.sabtok.util.JsonUtil;
 import com.sabtok.util.StringDateConverter;
+
 
 @Component
 public class DocumentServiceImpl implements DocumentService{
 
 	@Autowired
-	DocumentDao documentDao;
+	private DocumentDao documentDao;
+	
+	@Autowired
+	private PageActivityServiceImpl pageActivityService;
 	
 	@Override
 	public List<Attachement> getDocumentList() {
@@ -61,7 +66,10 @@ public class DocumentServiceImpl implements DocumentService{
 			 doc.setFileName(attachedFile.getOriginalFilename());
 			 doc.setSize(attachedFile.getSize()/1024);
 			 doc.setFileType(attachedFile.getContentType());
-			 documentDao.save(doc);
+			 Attachement docObj = documentDao.save(doc);
+			 if (docObj != null) {
+				 pageActivityService.logPageActivity(docObj, PageEventAction.DOCUPLOAD);
+			 }
 			 return doc.getCreatedDate();
 		} catch (IOException | SQLException e) {
 			// TODO Auto-generated catch block

@@ -11,22 +11,23 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.sabtok.dao.PageDao;
-import com.sabtok.entity.EventAction;
+import com.sabtok.entity.PageEventAction;
 import com.sabtok.entity.Page;
 import com.sabtok.services.PageService;
 import com.sabtok.util.SabInfoUtil;
 import com.sabtok.util.StringDateConverter;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public class PageServiceImpl implements PageService{
 
-	Logger log = LoggerFactory.getLogger(PageServiceImpl.class);
+	@Autowired
+    private PageDao pageRepo;
 	
 	@Autowired
-    PageDao pageRepo;
-	
-	@Autowired
-	SabInfoUtil util;
+	private PageActivityServiceImpl pageActivityServiceImpl;
 	
 	@Override
 	public Long getPageCount() {
@@ -45,23 +46,27 @@ public class PageServiceImpl implements PageService{
 
 	@Override
 	public int creatPage(Page page) {
-		//Event log = new Event();
-				//log.setPageId(page.getPageId());
-				//log.setAction(EventAction.CREATED);
-				//util.updateLogFields(log);
-				page.setCreatedDate(StringDateConverter.getTimeStamp());
-				pageRepo.save(page);
-				return page.getPageNo();
+		log.debug("Creating page");
+		page.setCreatedDate(StringDateConverter.getTimeStamp());
+		Page pageObj = pageRepo.save(page);
+		log.debug("Creating created");
+		if (pageObj != null) {
+			pageActivityServiceImpl.logPageActivity(page,PageEventAction.CREATE);
+		}
+		return page.getPageNo();
 	}
 
 	@Override
 	public String updatePage(Page page) {
-		//Event log = new Event();
-				//log.setPageId(page.getPageId());
-				//log.setAction(EventAction.MODIFIED);
-				//util.updateLogFields(log);
-				pageRepo.save(page);
-				return EventAction.MODIFIED+" Page "+page.getPageId();
+		log.debug("updatePage() called...");
+		String oldContenet = pageRepo.getContenttByPageId(page.getPageId()); 
+		Page pageObj = pageRepo.save(page);
+		if (pageObj != null) {
+			log.debug("Recording page activity...");
+			pageActivityServiceImpl.logPageActivity(page,PageEventAction.UPDATE,oldContenet);
+		}
+		log.debug("updatePage() completed...");
+		return page.getPageId();
 	}
 
 	@Override

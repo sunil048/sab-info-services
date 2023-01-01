@@ -12,13 +12,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.sabtok.dao.EventDao;
-import com.sabtok.entity.Event;
 
 @RestController
 @RequestMapping("/event")
 public class EventController {
+
+}
+/*
 	
 	EventDao logDao;
 	@GetMapping("/all")
@@ -34,4 +35,5 @@ public class EventController {
 		logDao.save(log);
 		return "success";
 	}
-}
+
+*/

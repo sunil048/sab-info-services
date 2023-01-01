@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import com.sabtok.dao.BookDao;
 import com.sabtok.entity.Book;
 import com.sabtok.entity.Event;
-import com.sabtok.entity.EventAction;
+import com.sabtok.entity.PageEventAction;
 import com.sabtok.services.BookService;
 import com.sabtok.util.SabInfoUtil;
 
@@ -33,7 +33,7 @@ public class BookServiceImpl implements BookService {
 		System.out.println(book);
 		Event log = new Event();
 		log.setBookId(book.getBookId());
-		log.setAction(EventAction.CREATED);
+		//log.setAction(PageEventAction.CREATED);
 	    util.updateLogFields(log); 
 		return bookDao.save(book);
 	}
@@ -44,10 +44,11 @@ public class BookServiceImpl implements BookService {
 		System.out.println(book);
 		Event log = new Event();
 		log.setBookId(book.getBookId());
-		log.setAction(EventAction.MODIFIED);
+		//log.setAction(PageEventAction.MODIFIED);
 	    util.updateLogFields(log); 
 		bookDao.save(book);
-		return EventAction.MODIFIED+" book "+book.getBookId();
+		//return PageEventAction.MODIFIED+" book "+book.getBookId();
+		return null;
 	}
 
 	@Override

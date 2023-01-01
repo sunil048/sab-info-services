@@ -16,21 +16,27 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sabtok.entity.EventAction;
 import com.sabtok.entity.Page;
+import com.sabtok.entity.PageActivity;
+import com.sabtok.entity.PageEventAction;
 import com.sabtok.services.PageService;
+import com.sabtok.services.impl.PageActivityServiceImpl;
 import com.sabtok.util.SabInfoUtil;
 import com.sabtok.util.StringDateConverter;
+
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/page")
 @CrossOrigin("*")
+@Slf4j
 public class PageController {
-
-	Logger log = LoggerFactory.getLogger(PageController.class);
 	
 	@Autowired
-	PageService pageService;
+	private PageService pageService;
+	
+	@Autowired
+	PageActivityServiceImpl pageActivityServiceImpl;
 	
 	@Autowired
 	SabInfoUtil util;
@@ -56,26 +62,30 @@ public class PageController {
 	}
 	
 	@RequestMapping(value="/save",method=RequestMethod.POST)
-	@ResponseBody
-	public int creatPage(@RequestBody Page page) {
-		//Event log = new Event();
-		//log.setPageId(page.getPageId());
-		//log.setAction(EventAction.CREATED);
-		//util.updateLogFields(log);
-		page.setCreatedDate(StringDateConverter.getTimeStamp());
-		pageService.creatPage(page);
-		return page.getPageNo();
+	public ResponseEntity creatPage(@RequestBody Page page) {
+		log.info("creatPage() called.....");
+		try {
+			page.setCreatedDate(StringDateConverter.getTimeStamp());
+			int pageNo = pageService.creatPage(page);
+			return new ResponseEntity<Integer>(pageNo,HttpStatus.ACCEPTED);
+		} catch (Exception e) {
+			log.error("ERROR while creating page...", e);
+			return new ResponseEntity<Object>(e,HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
 	}
 	
 	@RequestMapping(value="/update",method=RequestMethod.POST)
-	@ResponseBody
-	public String updatePage(@RequestBody Page page) {
-		//Event log = new Event();
-		//log.setPageId(page.getPageId());
-		//log.setAction(EventAction.MODIFIED);
-		//util.updateLogFields(log);
-		pageService.updatePage(page);
-		return EventAction.MODIFIED+" Page "+page.getPageId();
+	public ResponseEntity updatePage(@RequestBody Page page) {
+		log.info("method updatePage() is called...");
+		try {
+			String pageId = pageService.updatePage(page);
+			return new ResponseEntity<String>(pageId,HttpStatus.ACCEPTED);
+		} catch (Exception e) {
+			log.error("ERROR while updating page "+page.getPageId(),e);
+			return new ResponseEntity<Object>(e,HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
 	}
 	
 	@GetMapping("/no/{pageNo}")

@@ -25,43 +25,51 @@ import org.springframework.web.bind.annotation.RestController;
 import com.sabtok.entity.Book;
 import com.sabtok.services.BookService;
 
+import lombok.extern.slf4j.Slf4j;
+
 @RestController
 @RequestMapping("/book")
 @CrossOrigin("*")
+@Slf4j
 public class BookControler {
-	
-	Logger log = LoggerFactory.getLogger(BookControler.class);
 	
 	@Autowired
 	BookService bookService;
 	
 	@GetMapping("/booksCount")
 	public ResponseEntity<Object> bookNumber() {
-		log.info("calling book number method");
+		log.info("bookNumber() called.....");
 		try {
 			Long bookNo = bookService.bookNumber();
-			return new ResponseEntity(bookNo,HttpStatus.ACCEPTED);
+			return new ResponseEntity<Object>(bookNo,HttpStatus.ACCEPTED);
 		} catch (Exception e) {
-			return new ResponseEntity(e,HttpStatus.INTERNAL_SERVER_ERROR);
+			log.error("Error while getting book no ",e);
+			return new ResponseEntity<Object>(e,HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	
 	@GetMapping("/all")
 	public ResponseEntity<Object> getBooks(){
-		List<Book> bookList =  bookService.getBooks();
-		return new ResponseEntity(HttpStatus.ACCEPTED).ok(bookList);
+		log.info("getBooks() called.....");
+		try {
+			List<Book> bookList =  bookService.getBooks();
+			return new ResponseEntity<Object>(bookList,HttpStatus.ACCEPTED);
+		} catch (Exception e) {
+			log.error("Error while getting books ",e);
+			return new ResponseEntity<Object>(e,HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
 	}
 	
 	@GetMapping("/details/{bookId}")
 	public Book getBookDetails(@PathVariable String bookId){
-		System.out.println("----------------------------------------");
+		log.info("getBookDetails() called.....");
  		return Optional.ofNullable(bookService.getBookDetails(bookId)).get()
         .orElseThrow(IllegalArgumentException::new);
  		
 	}
 	
-	
-	@RequestMapping(value="/load",method=RequestMethod.POST)
+	@RequestMapping(value="/save",method=RequestMethod.POST)
 	public Book saveBook(@RequestBody Book book) {
 	//public Book saveBook(@Valid @RequestBody Book book) {
 		return bookService.saveBook(book);

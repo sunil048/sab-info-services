@@ -7,9 +7,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
+import lombok.*;
 //import org.hibernate.validator.constraints.NotEmpty;
 
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
 @Entity
 @Table(name="BOOKS")
 public class Book implements Serializable{
@@ -17,7 +21,6 @@ public class Book implements Serializable{
 	@Id
 	@Column(name="BOOKID")
 	private String bookId;
-	
 	
 	@GeneratedValue
 	@Column(name="BOOKNO")
@@ -36,63 +39,4 @@ public class Book implements Serializable{
 	@Column(name="CREATED_BY")
 	private String createdBy;
 
-	public String getBookId() {
-		return bookId;
-	}
-
-	public void setBookId(String bookId) {
-		this.bookId = bookId;
-	}
-
-	public int getBookNo() {
-		return bookNo;
-	}
-
-	public void setBookNo(int bookNo) {
-		this.bookNo = bookNo;
-	}
-
-	public String getBookName() {
-		return bookName;
-	}
-
-	public void setBookName(String bookName) {
-		this.bookName = bookName;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public String getCreatedDate() {
-		return createdDate;
-	}
-
-	public void setCreatedDate(String createdDate) {
-		this.createdDate = createdDate;
-	}
-
-	public String getCreatedBy() {
-		return createdBy;
-	}
-
-	public void setCreatedBy(String createdBy) {
-		this.createdBy = createdBy;
-	}
-	
-	public int compareTo(Book o) 
-	{ 
-		return  (this.bookName).compareTo(o.getBookName()); // return 0; maintain same order
-	 }
-
-	@Override
-	public String toString() {
-		return "Book [bookId=" + bookId + ", bookNo=" + bookNo + ", bookName=" + bookName + ", description="
-				+ description + ", createdDate=" + createdDate + ", createdBy=" + createdBy + "]";
-	}
-	
 }
