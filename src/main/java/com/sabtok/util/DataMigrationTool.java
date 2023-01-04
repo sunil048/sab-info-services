@@ -18,11 +18,14 @@ import java.util.List;
 
 import org.apache.tomcat.jni.File;
 
-import com.sabtok.persistance.entity.Book;
-import com.sabtok.persistance.entity.Page;
+import com.sabtok.entity.Book;
+import com.sabtok.entity.Page;
 
+import lombok.Getter;
+import lombok.Setter;
 
-
+@Getter
+@Setter
 public class DataMigrationTool {
 
 	public static void main(String[] args) throws IOException, ClassNotFoundException, SQLException {
