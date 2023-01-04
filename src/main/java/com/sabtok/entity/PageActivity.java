@@ -16,7 +16,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 @Entity
-@Table(name="LOGS_PAGE")
+@Table(name="ACTIVITIES_PAGE")
 public class PageActivity {
 
 	@Id

@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -13,7 +14,7 @@ import com.sabtok.dao.BookDao;
 @RunWith(SpringJUnit4ClassRunner.class)
 public class BookServiceImplTest {
 
-	@Mock
+	@InjectMocks
 	BookDao bookDao;
 
 	@Mock
