@@ -1,6 +1,7 @@
 package com.sabtok.dao;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -18,5 +19,7 @@ public interface PageDao extends JpaRepository<Page, Long>{
 	
 	@Query("select content from Page where pageid =?1")
 	public String getContenttByPageId(String pageId);
+	
+	public Page findByPageId(String pageId);
 	
 }
