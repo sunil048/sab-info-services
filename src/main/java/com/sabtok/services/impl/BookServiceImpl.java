@@ -55,7 +55,7 @@ public class BookServiceImpl implements BookService {
 	public Long bookNumber() {
 		System.out.println("calling book number method");
 		Long bookNo = bookDao.count();
-		return bookNo/0 ;
+		return bookNo;
 	}
 
 	@Override
