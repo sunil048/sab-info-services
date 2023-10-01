@@ -16,4 +16,5 @@ public interface DocumentService {
 	public Attachement getDocumentByAttachementId(String attachementId);
 	public Integer getPageNumber(String pageId);
 	public String saveDocument(String doctPayload,MultipartFile attachedFile) throws SerialException, SQLException, IOException;
+	public Long getTotalDocumentCount();
 }

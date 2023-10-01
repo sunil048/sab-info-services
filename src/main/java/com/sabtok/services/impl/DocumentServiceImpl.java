@@ -77,5 +77,10 @@ public class DocumentServiceImpl implements DocumentService{
 			return null;
 		}
 	}
+
+	@Override
+	public Long getTotalDocumentCount() {
+		return documentDao.count();
+	}
 	
 }
