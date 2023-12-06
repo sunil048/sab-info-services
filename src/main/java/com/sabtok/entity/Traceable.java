@@ -20,16 +20,15 @@ import lombok.Setter;
 @Access(AccessType.FIELD)
 public abstract class Traceable {
 	
-	private String CREATED_BY="sab-info";
-	private String UPDATED_BY="sab-info";
+	private String user="sab-info";
 
 	@Column(name="STATUS_CODE", nullable = false)
 	private String statusCode;
 	
-	@Column(name="CREATED_AT", nullable = false)
+	@Column(name="CREATED_AT", nullable = false , updatable = false)
 	private String createdAt;
 	
-	@Column(name="CREATED_BY", nullable = false)
+	@Column(name="CREATED_BY", nullable = false, updatable = false)
 	private String createdBy;
 	
 	@Column(name="UPDATED_BY", nullable = false)
@@ -49,7 +48,7 @@ public abstract class Traceable {
 		}
 		
 		if (createdBy == null) {
-			setCreatedBy(CREATED_BY);
+			setCreatedBy(user);
 		}
 		
 		preUpdate();
@@ -62,7 +61,7 @@ public abstract class Traceable {
 		}
 		
 		if (updatedBy == null) {
-			setUpdatedBy(UPDATED_BY);
+			setUpdatedBy(user);
 		}
 	}
 }
