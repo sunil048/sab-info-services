@@ -1,5 +1,5 @@
 package com.sabtok.entity;
 
 public enum PageEventAction {
-		CREATE,UPDATE,DELETE,DOCUPLOAD
+		CREATE,UPDATE,DELETE,DOCUPLOAD,ARCHIVE
 }

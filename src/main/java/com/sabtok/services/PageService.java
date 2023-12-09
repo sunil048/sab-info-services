@@ -9,7 +9,7 @@ public interface PageService {
 	public Integer getPageCountForBook(String bookId);
 	public Page getPageDetails(String pageId);
 	public int creatPage(Page page);
-	public String updatePage(Page page);
+	public String updatePage(Page page, Boolean backUpFlag);
 	public Page getPageDetailsByBookNo(Long pageNo);
 	public List<Page> getPageListByBookId(String bookId);
 	public List<Page> getAllPagesList();

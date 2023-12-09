@@ -57,11 +57,11 @@ public class PageServiceImpl implements PageService{
 	}
 
 	@Override
-	public String updatePage(Page page) {
+	public String updatePage(Page page, Boolean backUpFlag) {
 		log.debug("updatePage() called...");
 		String oldContenet = pageRepo.getContenttByPageId(page.getPageId()); 
 		Page pageObj = pageRepo.save(page);
-		if (pageObj != null) {
+		if (backUpFlag == true) {
 			log.debug("Recording page activity...");
 			pageActivityServiceImpl.logPageActivity(page,PageEventAction.UPDATE,oldContenet);
 		}

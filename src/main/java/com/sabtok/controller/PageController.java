@@ -1,6 +1,8 @@
 package com.sabtok.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +13,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -43,6 +46,8 @@ public class PageController {
 	@Autowired
 	SabInfoUtil util;
 	
+	private Map<String, String> recentViewdPages = new HashMap();
+	
 	@GetMapping("/all")
 	public List<Page> getAllPagesList(){
 		return pageService.getAllPagesList();
@@ -60,7 +65,9 @@ public class PageController {
 	
 	@GetMapping("/details/{pageId}")
 	public Page getPageDetails(@PathVariable("pageId") String pageId) {
-		return pageService.getPageDetails(pageId);
+		Page page = pageService.getPageDetails(pageId);
+		recentViewdPages.put(page.getPageId(), page.getTitle());
+		return page;
 	}
 	
 	@RequestMapping(value="/save",method=RequestMethod.POST)
@@ -77,14 +84,14 @@ public class PageController {
 		
 	}
 	
-	@RequestMapping(value="/update",method=RequestMethod.POST)
-	public ResponseEntity updatePage(@RequestBody Page page) {
+	@RequestMapping(value="/update/{backUpFlag}",method=RequestMethod.POST)
+	public ResponseEntity updatePage(@PathVariable("backUpFlag") String backUpFlag,@RequestBody Page page) {
 		log.info("method updatePage() is called...");
 		try {
 			if (StringUtils.isEmpty(page.getContent())) {
 				throw new PageException("Page content is empty");
 			}
-			String pageId = pageService.updatePage(page);
+			String pageId = pageService.updatePage(page, Boolean.valueOf(backUpFlag));
 			return new ResponseEntity<String>(pageId,HttpStatus.ACCEPTED);
 		} catch (Exception e) {
 			log.error("ERROR while updating page "+page.getPageId(),e);
@@ -107,6 +114,17 @@ public class PageController {
 		log.info("Getting page List for given book id "+bookId);
 		return  pageService.getPageListByBookId(bookId);
 		
+	}
+	
+	@GetMapping("/viewed-pages")
+	public ResponseEntity<Object> getRecentViewedPages(){
+		return new ResponseEntity<>(recentViewdPages,HttpStatus.OK);
+	}
+	
+	@PutMapping("/viewed-pages/clear")
+	public ResponseEntity<Object> clearRecentViewedPages(){
+		recentViewdPages.clear();
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 }
