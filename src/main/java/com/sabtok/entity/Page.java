@@ -21,7 +21,7 @@ import lombok.ToString;
 @Setter
 @NoArgsConstructor
 @ToString
-public class Page implements Serializable,Comparable<Page>{
+public class Page implements Serializable,Comparable<Page>  {
 
 	private static final long serialVersionUID = 1L;
 
