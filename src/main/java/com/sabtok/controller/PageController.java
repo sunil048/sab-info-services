@@ -4,10 +4,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -31,8 +35,11 @@ import com.sabtok.util.StringDateConverter;
 
 import lombok.extern.slf4j.Slf4j;
 
+import static com.sabtok.ApiCons.PAGE;
+import static com.sabtok.ApiCons.SAVE;
+
 @RestController
-@RequestMapping("/page")
+@RequestMapping(PAGE)
 @CrossOrigin("*")
 @Slf4j
 public class PageController {
@@ -69,14 +76,24 @@ public class PageController {
 		recentViewdPages.put(page.getPageId(), page.getTitle());
 		return page;
 	}
-	
-	@RequestMapping(value="/save",method=RequestMethod.POST)
+
+
+	@Operation(summary="Save the page details")
+	@ApiResponses(
+			value = {
+					@ApiResponse(responseCode = "200", description = "Successfully retrived book number count"),
+					@ApiResponse(responseCode = "400", description = "Request not valid"),
+					@ApiResponse(responseCode = "422", description = "Request not valid"),
+					@ApiResponse(responseCode = "500", description = "Error processing request")
+			}
+	)
+	@RequestMapping(value=SAVE,method=RequestMethod.POST,consumes = {MediaType.APPLICATION_JSON_VALUE})
 	public ResponseEntity creatPage(@RequestBody Page page) {
 		log.info("creatPage() called.....");
 		try {
 			page.setCreatedDate(StringDateConverter.getTimeStamp());
 			int pageNo = pageService.creatPage(page);
-			return new ResponseEntity<Integer>(pageNo,HttpStatus.ACCEPTED);
+			return new ResponseEntity<Integer>(pageNo,HttpStatus.OK);
 		} catch (Exception e) {
 			log.error("ERROR while creating page...", e);
 			return new ResponseEntity<Object>(e,HttpStatus.INTERNAL_SERVER_ERROR);
