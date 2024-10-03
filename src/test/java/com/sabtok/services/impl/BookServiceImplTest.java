@@ -2,9 +2,10 @@ package com.sabtok.services.impl;
 
 import static org.junit.Assert.assertEquals;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
+import org.junit.jupiter.api.Tag;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
+
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -14,12 +15,13 @@ import com.sabtok.dao.BookDao;
 @RunWith(SpringJUnit4ClassRunner.class)
 public class BookServiceImplTest {
 
-	@InjectMocks
+	@Mock
 	BookDao bookDao;
 
 	@Mock
 	BookServiceImpl bookServiceImpl;
 
+	@Tag("URS-87772")
 	@Test
 	public void bookNumberTest() {
 

@@ -3,6 +3,9 @@
 import java.util.List;
 import java.util.Optional;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.slf4j.Logger;
 
 //import javax.validation.Valid;
@@ -12,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,14 +38,23 @@ import lombok.extern.slf4j.Slf4j;
 public class BookControler {
 	
 	@Autowired
-	BookService bookService;
-	
-	@GetMapping("/booksCount")
+	private BookService bookService;
+
+	@Operation(summary="Get total number of books")
+	@ApiResponses(
+			value = {
+				@ApiResponse(responseCode = "200", description = "Successfully retrived book number count"),
+				@ApiResponse(responseCode = "400", description = "Request not valid"),
+				@ApiResponse(responseCode = "422", description = "Request not valid"),
+				@ApiResponse(responseCode = "500", description = "Error processing request")
+			}
+	)
+	@GetMapping(value="/booksCount", consumes = {MediaType.APPLICATION_JSON_VALUE})
 	public ResponseEntity<Object> bookNumber() {
 		log.info("bookNumber() called.....");
 		try {
 			Long bookNo = bookService.bookNumber();
-			return new ResponseEntity<Object>(bookNo,HttpStatus.ACCEPTED);
+			return new ResponseEntity<Object>(bookNo,HttpStatus.OK);
 		} catch (Exception e) {
 			log.error("Error while getting book no ",e);
 			return new ResponseEntity<Object>(e,HttpStatus.INTERNAL_SERVER_ERROR);
