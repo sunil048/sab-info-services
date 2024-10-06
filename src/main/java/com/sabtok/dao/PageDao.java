@@ -11,7 +11,7 @@ import com.sabtok.entity.Page;
 
 
 @Repository
-public interface PageDao extends JpaRepository<Page, Long>{
+public interface PageDao extends JpaRepository<Page, String>{
 
 	public Page getPageDetailsByPageId(String pageId);
 	public List<Page> getPageListByBookId(String bookId);
