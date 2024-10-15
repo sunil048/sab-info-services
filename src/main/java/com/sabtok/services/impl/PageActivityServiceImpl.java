@@ -14,6 +14,14 @@ import com.sabtok.util.StringDateConverter;
 
 import lombok.extern.slf4j.Slf4j;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+import java.util.function.Consumer;
+import java.util.stream.Collectors;
+
+import static java.util.Comparator.comparing;
+
 @Slf4j
 @Component
 public class PageActivityServiceImpl {
@@ -22,6 +30,9 @@ public class PageActivityServiceImpl {
 	private PageActivityDao pageActivityDao;
 	
 	private PageActivity pageActivity;
+
+	//DateTimeFormatter dfm = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+	DateTimeFormatter dfm = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
 	
 	public void logPageActivity(Attachement attachement, PageEventAction actionType) {
 		log.debug("logging page activity");
@@ -60,5 +71,20 @@ public class PageActivityServiceImpl {
 		pageActivity.setNewContent(page.getContent());
 		pageActivity.setUpdateCreatedBy("Admin");
 		pageActivityDao.save(pageActivity);
+	}
+
+	public Map <String, String> getActivitiesForPage(String pageId){
+		List<PageActivity> activities =  pageActivityDao.findAllByPageId(pageId);
+
+		Collections.sort(activities,(a1,a2) ->
+
+			LocalDateTime.parse(a1.getDate(),dfm).compareTo(LocalDateTime.parse(a2.getDate(),dfm))
+		);
+
+		Map <String, String> dateWiseActivities = activities.stream().
+				sorted(comparing(pc -> LocalDateTime.parse(pc.getDate(),dfm)))
+				.collect(Collectors.toMap(PageActivity::getDate,PageActivity::getAction, (oldValue, newValue) -> oldValue, LinkedHashMap::new));
+		return dateWiseActivities;
+
 	}
 }

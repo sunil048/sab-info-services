@@ -3,6 +3,7 @@ package com.sabtok.controller;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import com.sabtok.entity.*;
 import io.swagger.v3.oas.annotations.Operation;
@@ -147,6 +148,13 @@ public class PageController {
 	@GetMapping(value="/links/{pageId}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<PageLinkage> getPageLinkageType(@PathVariable("pageId") String pageId){
 		return pageService.getPageLinkedItems(pageId);
+	}
+
+
+	@GetMapping(value="/activities/{pageId}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public Object getActivitiesForPage(@PathVariable("pageId") String pageId) {
+		Objects.requireNonNull(pageId);
+		return pageActivityServiceImpl.getActivitiesForPage(pageId);
 	}
 	
 }
