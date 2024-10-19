@@ -21,7 +21,14 @@ public class PageLinkage extends Traceable {
     private Long linkId;
     private String pageId;
     private String itemId;
+
+    @Enumerated(EnumType.STRING)
     private LinkageType linkageType;
     private String Description;
+
+    @Enumerated(EnumType.STRING)
+    private LinkageStatus status;
+    private String error;
+    private int retryCount = 0;
 
 }

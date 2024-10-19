@@ -1,18 +1,13 @@
 package com.sabtok.services.impl;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import com.sabtok.dao.PageLinkageDao;
-import com.sabtok.entity.LinkageType;
-import com.sabtok.entity.PageLinkage;
+import com.sabtok.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sabtok.dao.PageDao;
-import com.sabtok.entity.PageEventAction;
-import com.sabtok.entity.Page;
 import com.sabtok.services.PageService;
 import com.sabtok.util.StringDateConverter;
 
@@ -97,7 +92,7 @@ public class PageServiceImpl implements PageService {
 
 	@Override
 	public PageLinkage linkPage(String pageId, String itemId, LinkageType linkageType) {
-		PageLinkage link = PageLinkage.builder().itemId(itemId).linkageType(linkageType).pageId(pageId).build();
+		PageLinkage link = PageLinkage.builder().itemId(itemId).linkageType(linkageType).status(LinkageStatus.PENDING).pageId(pageId).build();
 		return pageLinkageDao.save(link);
 	}
 
@@ -105,5 +100,17 @@ public class PageServiceImpl implements PageService {
 	public List<PageLinkage> getPageLinkedItems(String pageId) {
 		return pageLinkageDao.findAllByPageId(pageId);
 	}
+
+	@Override
+	public List<PageLinkage> getAllNotProceessedLinks() {
+		List<LinkageStatus> failedPendingLinks = Arrays.asList(LinkageStatus.PENDING,LinkageStatus.FAILED);
+		return pageLinkageDao.findAllByStatusIn(failedPendingLinks);
+	}
+
+	@Override
+	public Object updateLinks(Set<PageLinkage> links) {
+		return pageLinkageDao.saveAll(links);
+	}
+
 
 }

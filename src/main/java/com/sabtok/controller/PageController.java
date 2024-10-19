@@ -1,11 +1,9 @@
 package com.sabtok.controller;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
-import com.sabtok.UserStoryClient;
+import com.sabtok.schedule.PageLinkageScheduler;
+import com.sabtok.restclients.UserStoryClient;
 import com.sabtok.entity.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -165,5 +163,18 @@ public class PageController {
 	public Object test(@PathVariable("id") String id){
 		return userStoryClient.getUserStoryDetails(id);
 	}
-	
+
+	@Autowired
+	PageLinkageScheduler pageLinkageScheduler;
+
+	@GetMapping("/schedule/trigger")
+	public String triggerScheduler() {
+		try {
+			pageLinkageScheduler.incidentRunner();
+			pageLinkageScheduler.userStoryRunner();
+			return "success";
+		} catch (Exception e){
+			return e.getMessage();
+		}
+	}
 }
