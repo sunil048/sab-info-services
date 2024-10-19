@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import com.sabtok.UserStoryClient;
 import com.sabtok.entity.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -155,6 +156,14 @@ public class PageController {
 	public Object getActivitiesForPage(@PathVariable("pageId") String pageId) {
 		Objects.requireNonNull(pageId);
 		return pageActivityServiceImpl.getActivitiesForPage(pageId);
+	}
+
+	@Autowired
+	private UserStoryClient userStoryClient;
+
+	@GetMapping("/test/{id}")
+	public Object test(@PathVariable("id") String id){
+		return userStoryClient.getUserStoryDetails(id);
 	}
 	
 }
