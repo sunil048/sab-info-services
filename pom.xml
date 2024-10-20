@@ -135,7 +135,7 @@
 
 	</dependencies>
 	<build>
-		<finalName>sab-info-services-2.2</finalName>
+		<finalName>sab-info-services-5</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
