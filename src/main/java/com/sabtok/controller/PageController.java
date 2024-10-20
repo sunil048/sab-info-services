@@ -1,32 +1,20 @@
 package com.sabtok.controller;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
+import com.sabtok.schedule.PageLinkageScheduler;
+import com.sabtok.restclients.UserStoryClient;
+import com.sabtok.entity.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import com.sabtok.entity.Page;
-import com.sabtok.entity.PageActivity;
-import com.sabtok.entity.PageEventAction;
 import com.sabtok.exception.PageException;
 import com.sabtok.services.PageService;
 import com.sabtok.services.impl.PageActivityServiceImpl;
@@ -143,5 +131,50 @@ public class PageController {
 		recentViewdPages.clear();
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
-	
+
+	@GetMapping("/link/types")
+	public LinkageType[] getPageLinkageType(){
+		return LinkageType.values();
+	}
+
+	@PutMapping("/link/save/{pageId}/{item}/{linkType}")
+	public Object linkItemToPage(@PathVariable("pageId") String pageId,
+								 @PathVariable("item") String item,
+								 @PathVariable("linkType") LinkageType linkType){
+		return pageService.linkPage(pageId,item,linkType);
+	}
+
+	@GetMapping(value="/links/{pageId}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public List<PageLinkage> getPageLinkageType(@PathVariable("pageId") String pageId){
+		return pageService.getPageLinkedItems(pageId);
+	}
+
+
+	@GetMapping(value="/activities/{pageId}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public Object getActivitiesForPage(@PathVariable("pageId") String pageId) {
+		Objects.requireNonNull(pageId);
+		return pageActivityServiceImpl.getActivitiesForPage(pageId);
+	}
+
+	@Autowired
+	private UserStoryClient userStoryClient;
+
+	@GetMapping("/test/{id}")
+	public Object test(@PathVariable("id") String id){
+		return userStoryClient.getUserStoryDetails(id);
+	}
+
+	@Autowired
+	PageLinkageScheduler pageLinkageScheduler;
+
+	@GetMapping("/schedule/trigger")
+	public String triggerScheduler() {
+		try {
+			pageLinkageScheduler.incidentRunner();
+			pageLinkageScheduler.userStoryRunner();
+			return "success";
+		} catch (Exception e){
+			return e.getMessage();
+		}
+	}
 }

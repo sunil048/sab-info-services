@@ -11,6 +11,8 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
+		<spring-cloud.version>2023.0.1</spring-cloud.version>
+
 	</properties>
 
 	<name>sab-info-services</name>
@@ -24,6 +26,7 @@
 	</parent>
 
 	<dependencies>
+
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
@@ -90,16 +93,13 @@
 			<groupId>io.swagger.core.v3</groupId>
 			<artifactId>swagger-annotations</artifactId>
 			<version>2.2.20</version>
-
+		</dependency>
         <dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
 			<!-- <version>9.4-1206-jdbc42</version> -->
 			<version>42.7.2</version>
-
 		</dependency>
-
-
 		<dependency>
         <groupId>junit</groupId>
         <artifactId>junit</artifactId>
@@ -116,6 +116,23 @@
 			<artifactId>spring-boot-devtools</artifactId>
 			<scope>runtime</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.googlecode.json-simple</groupId>
+			<artifactId>json-simple</artifactId>
+			<version>1.1.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-context</artifactId>
+			<version>3.0.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-openfeign</artifactId>
+			<version>3.1.4</version>
+		</dependency>
+
+
 	</dependencies>
 	<build>
 		<finalName>sab-info-services-2.2</finalName>
@@ -128,6 +145,7 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
 			</plugin>
+
 		</plugins>
 	</build>
 </project>

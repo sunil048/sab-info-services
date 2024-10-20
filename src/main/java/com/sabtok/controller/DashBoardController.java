@@ -3,6 +3,8 @@ package com.sabtok.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,7 @@ import com.sabtok.exception.SabInfoException;
 import com.sabtok.services.BookService;
 import com.sabtok.services.DocumentService;
 import com.sabtok.services.PageService;
+import com.sabtok.UserStoriesScheduler;
 
 /**
  * @author user
@@ -23,6 +26,8 @@ import com.sabtok.services.PageService;
 @RestController
 @RequestMapping("/board")
 @CrossOrigin
+@NoArgsConstructor
+@AllArgsConstructor
 public class DashBoardController {
 
 	@Autowired
@@ -33,6 +38,9 @@ public class DashBoardController {
 	
 	@Autowired
 	private DocumentService documentService;
+
+	@Autowired
+	private UserStoriesScheduler userStoriesScheduler;
 	
 	@GetMapping("/counts")
 	public ResponseEntity<Object> getDashBoradDetails()
@@ -48,7 +56,10 @@ public class DashBoardController {
 			SabInfoException error = new SabInfoException("500",e.getMessage());
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR).internalServerError().body(error);
 		}
-		
-		
+	}
+
+	@GetMapping("/test")
+	public Object getData(){
+		return userStoriesScheduler.getUserStoryData();
 	}
 }
