@@ -21,5 +21,10 @@ public interface PageDao extends JpaRepository<Page, String>{
 	public String getContenttByPageId(String pageId);
 	
 	public Page findByPageId(String pageId);
+
+	@Query("select new Page(p.pageId, p.pageNo, p.bookId, p.bookName, p.title, p.createdDate, p.createdBy) FROM Page as p")
+	//@Query("select p.pageId, p.pageNo, p.bookId, p.bookName, p.title, p.createdDate, p.createdBy FROM Page p")
+	//@Query("select p FROM Page p")
+	List<Page> getAllPageList();
 	
 }

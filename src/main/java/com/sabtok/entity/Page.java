@@ -9,10 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Table;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
+import org.springframework.data.jpa.repository.Query;
 
 
 @Entity
@@ -50,6 +48,17 @@ public class Page implements Serializable,Comparable<Page>  {
 	
 	@Column(name="CREATED_BY")
 	private String createdBy;
+
+	//@Query("select new Page(p.pageId, p.pageNo, p.bookId, p.bookName, p.title, p.createdDate, p.createdBy) FROM Page as p")
+	public Page(String pageId,int pageNo,String bookId,String bookName,String title,String createdDate, String createdBy) {
+		this.pageId = pageId;
+		this.createdBy = createdBy;
+		this.createdDate = createdDate;
+		this.title = title;
+		this.bookName = bookName;
+		this.bookId = bookId;
+		this.pageNo = pageNo;
+	}
 
 	public int compareTo(Page o) {
 		return (this.pageNo)-o.getPageNo();
