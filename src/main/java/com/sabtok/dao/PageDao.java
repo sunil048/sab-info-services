@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.sabtok.entity.Page;
@@ -15,7 +16,9 @@ public interface PageDao extends JpaRepository<Page, String>{
 
 	public Page getPageDetailsByPageId(String pageId);
 	public List<Page> getPageListByBookId(String bookId);
-	public List<Page> getPageListByBookIdOrderByPageNoAsc(String bookId);
+
+	@Query("select new Page(p.pageId, p.pageNo, p.bookId, p.bookName, p.title, p.createdDate, p.createdBy) FROM Page as p where p.bookId=:bookId")
+	public List<Page> getPageListByBookIdOrderByPageNoAsc(@Param("bookId") String bookId);
 	
 	@Query("select content from Page where pageid =?1")
 	public String getContenttByPageId(String pageId);
