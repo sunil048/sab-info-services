@@ -5,6 +5,7 @@ import java.util.*;
 import com.sabtok.dao.PageLinkageDao;
 import com.sabtok.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.sabtok.dao.PageDao;
@@ -67,6 +68,7 @@ public class PageServiceImpl implements PageService {
 	}
 
 	@Override
+	@Cacheable(value = "page", key = "#pageNo")
 	public Page getPageDetailsByBookNo(Long pageNo) {
 		log.info("getPageDetailsByBookId "+pageNo);
 		Optional<Page> page= pageRepo.findById(String.valueOf(pageNo));
@@ -74,11 +76,13 @@ public class PageServiceImpl implements PageService {
 	}
 
 	@Override
+	@Cacheable(value = "pageList", key = "#bookId")
 	public List<Page> getPageListByBookId(String bookId) {
 		log.info("Getting page List for given book id "+bookId);
 		return  pageRepo.getPageListByBookIdOrderByPageNoAsc(bookId);
 	}
 
+	@Cacheable(value = "pages", key = "'all'")
 	@Override
 	public List<Page> getAllPagesList() {
 		return pageRepo.getAllPageList();

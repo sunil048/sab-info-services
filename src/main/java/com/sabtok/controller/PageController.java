@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -42,7 +43,8 @@ public class PageController {
 	SabInfoUtil util;
 	
 	private Map<String, String> recentViewdPages = new HashMap();
-	
+
+
 	@GetMapping("/all")
 	public List<Page> getAllPagesList(){
 		return pageService.getAllPagesList();
@@ -113,7 +115,8 @@ public class PageController {
 		return new ResponseEntity<Page>(page, HttpStatus.OK);
 		
 	}
-	
+
+
 	@GetMapping("/pageList/{bookId}")
 	public  List<Page> getPageListByBookId(@PathVariable("bookId") String bookId){
 		log.info("Getting page List for given book id "+bookId);
