@@ -5,6 +5,7 @@ import java.util.*;
 import com.sabtok.dao.PageLinkageDao;
 import com.sabtok.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -38,11 +39,13 @@ public class PageServiceImpl implements PageService {
 	}
 
 	@Override
+	@Cacheable(value = "page", key = "#pageId")
 	public Page getPageDetails(String pageId) {
 		return pageRepo.getPageDetailsByPageId(pageId);
 	}
 
 	@Override
+	@CacheEvict(value = "pages", key = "'all'")
 	public int creatPage(Page page) {
 		log.debug("Creating page");
 		page.setCreatedDate(StringDateConverter.getTimeStamp());
@@ -55,6 +58,7 @@ public class PageServiceImpl implements PageService {
 	}
 
 	@Override
+	@CacheEvict(value = "page", key = "#page.pageId")
 	public String updatePage(Page page, Boolean backUpFlag) {
 		log.debug("updatePage() called...");
 		String oldContenet = pageRepo.getContenttByPageId(page.getPageId()); 

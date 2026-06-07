@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: sab-info-services
+  config:
+    import: "configserver:http://localhost:8888"
+    fail-fast: true
+
+  profiles:
+    active: DEV
+    #active: STAGE
