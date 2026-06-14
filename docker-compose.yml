@@ -1,0 +1,17 @@
+version: '3'
+services:
+  PROD-sab-info-services:
+    image: tiger123/sab-info-services:master
+    container_name: PROD-sab-info-services
+    ports:
+      - "8080:8081"
+    networks:
+      - sab-network-dev
+    environment:
+      # Instructs your app to fetch properties from the config-server container
+      #- SPRING_CLOUD_CONFIG_URI=http://config-server:8888
+      - TZ=Asia/Kolkata
+
+networks:
+  sab-network-dev:
+    external: true

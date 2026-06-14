@@ -5,6 +5,9 @@ import java.util.*;
 import com.sabtok.dao.PageLinkageDao;
 import com.sabtok.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 
 import com.sabtok.dao.PageDao;
@@ -37,11 +40,16 @@ public class PageServiceImpl implements PageService {
 	}
 
 	@Override
+	@Cacheable(value = "page", key = "#pageId")
 	public Page getPageDetails(String pageId) {
 		return pageRepo.getPageDetailsByPageId(pageId);
 	}
 
 	@Override
+	@Caching(evict = {
+			@CacheEvict(value = "pages", key = "'all'"),
+			@CacheEvict(value = "pageList", key = "#page.bookId")
+	})
 	public int creatPage(Page page) {
 		log.debug("Creating page");
 		page.setCreatedDate(StringDateConverter.getTimeStamp());
@@ -54,6 +62,7 @@ public class PageServiceImpl implements PageService {
 	}
 
 	@Override
+	@CacheEvict(value = "page", key = "#page.pageId")
 	public String updatePage(Page page, Boolean backUpFlag) {
 		log.debug("updatePage() called...");
 		String oldContenet = pageRepo.getContenttByPageId(page.getPageId()); 
@@ -67,6 +76,7 @@ public class PageServiceImpl implements PageService {
 	}
 
 	@Override
+	@Cacheable(value = "page", key = "#pageNo")
 	public Page getPageDetailsByBookNo(Long pageNo) {
 		log.info("getPageDetailsByBookId "+pageNo);
 		Optional<Page> page= pageRepo.findById(String.valueOf(pageNo));
@@ -74,11 +84,13 @@ public class PageServiceImpl implements PageService {
 	}
 
 	@Override
+	@Cacheable(value = "pageList", key = "#bookId")
 	public List<Page> getPageListByBookId(String bookId) {
 		log.info("Getting page List for given book id "+bookId);
 		return  pageRepo.getPageListByBookIdOrderByPageNoAsc(bookId);
 	}
 
+	@Cacheable(value = "pages", key = "'all'")
 	@Override
 	public List<Page> getAllPagesList() {
 		return pageRepo.getAllPageList();
