@@ -2,9 +2,10 @@ spring:
   application:
     name: sab-info-services
   config:
-    import: "configserver:http://localhost:8888"
-    fail-fast: true
-
+    import: "configserver:http://config-server:8888"
+  cloud:
+    config:
+      fail-fast: true
   profiles:
     active: DEV
     #active: STAGE

@@ -4,7 +4,7 @@ services:
     image: tiger123/sab-info-services:master
     container_name: PROD-sab-info-services
     ports:
-      - "8080:8081"
+      - "5004:8081"
     networks:
       - sab-network-dev
     environment:
