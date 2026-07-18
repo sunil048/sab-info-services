@@ -1,6 +1,10 @@
 package com.sabtok.controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
+
+import com.sabtok.dao.MyQuestionDao;
+import com.sabtok.entity.MyQuestion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,10 +24,17 @@ public class CommentsController {
 
 	@Autowired
 	private CommentDao commentDao;
+
+	@Autowired
+	private MyQuestionDao questionDao;
 	
 	@PostMapping("/save")
 	public Comment saveComment(@RequestBody Comment comment) {
 		System.out.println(comment);
+		MyQuestion question = questionDao.findById(comment.getQuestionId()).get();
+		question.setUpdatedBy("Comment Controller");
+		question.setUpdatedAt(LocalDateTime.now());
+		questionDao.save(question);
 		return commentDao.save(comment);
 	}
 	
