@@ -9,6 +9,8 @@ import org.springframework.stereotype.Repository;
 import com.sabtok.entity.MyQuestion;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Repository
 public interface MyQuestionDao extends JpaRepository<MyQuestion, Long> {
 
@@ -16,4 +18,6 @@ public interface MyQuestionDao extends JpaRepository<MyQuestion, Long> {
     @Modifying
     @Query(value = "update QUESTIONERIES set status='CLOSED' where id=:questionNo", nativeQuery = true)
     public int closeQuestion(@Param("questionNo") long questionNo);
+
+    public List<MyQuestion> findAllByCategory(String category);
 }

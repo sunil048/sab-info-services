@@ -29,6 +29,9 @@ public class MyQuestion extends CreateTraceable {
 
 	@Column(name="CATEGORY")
 	private String category;
+
+	@Column(name="SUB_CATEGORY")
+	private String subCategory;
 	
 	@Column(name="DESCRIPTION")
 	private String description;
@@ -39,7 +42,12 @@ public class MyQuestion extends CreateTraceable {
 	@Column(name="SUB_SKILL")
 	private String subSkill;
 
-	
+	@Column(name="PRIORITY")
+	private String priority;
+
+	@Column(name="LEVEL")
+	private String level;
+
 	@Column(name="STATUS")
 	private String status;
 
@@ -48,6 +56,7 @@ public class MyQuestion extends CreateTraceable {
 
 	@Column(name="UPDATED_BY")
 	private String updatedBy;
+
 	
 	@OneToMany(fetch = FetchType.EAGER)
 	@JoinColumn(name = "QUESTION_ID")
