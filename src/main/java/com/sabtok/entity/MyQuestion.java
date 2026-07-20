@@ -1,6 +1,5 @@
 package com.sabtok.entity;
 
-import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -56,6 +55,9 @@ public class MyQuestion extends CreateTraceable {
 
 	@Column(name="UPDATED_BY")
 	private String updatedBy;
+
+	@Column(name="LABEL")
+	private String label;
 
 	
 	@OneToMany(fetch = FetchType.EAGER)
