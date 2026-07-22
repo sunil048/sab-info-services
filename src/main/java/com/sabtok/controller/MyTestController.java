@@ -61,4 +61,14 @@ public class MyTestController {
 
     }
 
+    @GetMapping("/")
+    public List<MyTest> getAllTest(){
+        return myTestDao.findAll();
+    }
+
+    @GetMapping("/{id}")
+    public Optional<MyTest> getAllTest(@PathVariable("id") Long id){
+        return myTestDao.findById(id);
+    }
+
 }
