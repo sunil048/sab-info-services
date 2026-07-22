@@ -6,6 +6,9 @@ import com.sabtok.entity.MyQuestion;
 import com.sabtok.entity.MyTest;
 import com.sabtok.entity.TestQuestion;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,6 +27,28 @@ public class MyTestController {
 
     @Autowired
     private MyQuestionDao myQuestionDao;
+
+    @PostMapping("/generate")
+    public MyTest generateTest(@RequestBody MyTest myTest) {
+
+
+        Specification<MyQuestion> spec = MyQuestionSpecifications.matchTestCriteria(myTest);
+        List<MyQuestion> questions = myQuestionDao.findAll(spec);
+        Collections.shuffle(questions);
+        List<TestQuestion> selectedQuestions = questions.stream()
+                .limit(5) // Safely stops at 5 or the list size automatically
+                .map(qu -> TestQuestion.builder()
+                        .id(UUID.randomUUID().toString())
+                        .questionId(qu.getQuestionId())
+                        .questionName(qu.getQuestion())
+                        .isAnswered(false)
+                        .myTest(myTest)
+                        .build())
+                .collect(Collectors.toList());
+
+        myTest.setQuestions(selectedQuestions);
+        return myTestDao.save(myTest);
+    }
 
     @GetMapping("/data")
     public MyTest getMyTest(){
@@ -72,3 +97,5 @@ public class MyTestController {
     }
 
 }
+
+

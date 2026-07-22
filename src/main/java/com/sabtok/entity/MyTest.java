@@ -30,14 +30,11 @@ public class MyTest {
     @Column(name="CATEGORY")
     private String category;
 
-    @Column(name="DATE")
-    private LocalDateTime date;
-
-    @OneToMany(mappedBy = "myTest",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<TestQuestion> questions;
-
     @Column(name = "SUB_CATEGORY")
     private String subCategory;
+
+    @Column(name="DATE")
+    private LocalDateTime date;
 
     @Column(name = "SKILL")
     private String skill;
@@ -62,6 +59,9 @@ public class MyTest {
 
     @Column(name = "COMMENTS")
     private String comments;
+
+    @OneToMany(mappedBy = "myTest",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<TestQuestion> questions;
 
     @PrePersist
     public void prePersist(){
