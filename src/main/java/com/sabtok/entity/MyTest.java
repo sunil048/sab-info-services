@@ -30,8 +30,35 @@ public class MyTest {
     @Column(name="CATEGORY")
     private String category;
 
+    @Column(name = "SUB_CATEGORY")
+    private String subCategory;
+
     @Column(name="DATE")
     private LocalDateTime date;
+
+    @Column(name = "SKILL")
+    private String skill;
+
+    @Column(name = "SUB_SKILL")
+    private String subSkill;
+
+    @Column(name = "NO_OF_QUESTIONS")
+    private Integer noOfQuestions;
+
+    @Column(name = "PRIORITY")
+    private String priority;
+
+    @Column(name = "Level")
+    private String level;
+
+    @Column(name = "RESULT")
+    private String result;
+
+    @Column(name = "MARKS")
+    private String marks;
+
+    @Column(name = "COMMENTS")
+    private String comments;
 
     @OneToMany(mappedBy = "myTest",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<TestQuestion> questions;
