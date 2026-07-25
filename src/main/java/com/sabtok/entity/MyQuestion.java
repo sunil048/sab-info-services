@@ -5,13 +5,14 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Table(name="QUESTIONERIES")
+@JsonIgnoreProperties({"comments", "hibernateLazyInitializer", "handler"})
 @JsonInclude(content = JsonInclude.Include.NON_NULL)
 @Getter
 @Setter
