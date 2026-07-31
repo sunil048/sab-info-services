@@ -23,6 +23,7 @@ import com.sabtok.util.SabInfoUtil;
 import com.sabtok.util.StringDateConverter;
 
 import lombok.extern.slf4j.Slf4j;
+import reactor.core.publisher.Flux;
 
 import static com.sabtok.ApiCons.PAGE;
 import static com.sabtok.ApiCons.SAVE;
@@ -45,9 +46,14 @@ public class PageController {
 	private Map<String, String> recentViewdPages = new HashMap();
 
 
-	@GetMapping("/all")
+	@GetMapping("/all/v1")
 	public List<Page> getAllPagesList(){
 		return pageService.getAllPagesList();
+	}
+
+	@GetMapping("/all")
+	public Flux<Page> getAllPagesListStream(){
+		return pageService.getAllPagesListStream();
 	}
 	
 	@GetMapping("/total")
