@@ -1,17 +1,13 @@
 package com.sabtok.controller;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.sabtok.util.IDGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.sabtok.dao.MyQuestionDao;
 import com.sabtok.entity.MyQuestion;
@@ -38,6 +34,15 @@ public class MyQuestionController {
 	@GetMapping("/details/{id}")
 	public MyQuestion getQuestionDetails(@PathVariable("id") Long questionId){
 		return questionDao.findById(questionId).get();
+	}
+
+	@GetMapping("/details")
+	public List<MyQuestion> getQuestionDetailsForIdList(@RequestParam("questionNos") String questionNos){
+		List<Long> qIds = Arrays.stream(questionNos.split(","))
+				.mapToLong(Long::valueOf)
+				.boxed()
+				.collect(Collectors.toList());
+		return questionDao.findAllById(qIds);
 	}
 
 	@GetMapping("/status/{questionNo}")
