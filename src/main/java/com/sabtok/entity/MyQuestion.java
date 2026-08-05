@@ -60,7 +60,15 @@ public class MyQuestion extends CreateTraceable {
 	@Column(name="LABEL")
 	private String label;
 
-	
+	@Column(name="NO_OF_PRACTICE")
+	private String noOfPractice;
+
+	@Column(name="NO_OF_ATTEMPTED")
+	private String noOfAttempted;
+
+	@Column(name="LINKED_QUESTIONS_NO")
+	private String linkedQuestionNos;
+
 	@OneToMany(fetch = FetchType.EAGER)
 	@JoinColumn(name = "QUESTION_ID")
 	private List<Comment> comments;
