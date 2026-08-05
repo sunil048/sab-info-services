@@ -7,6 +7,7 @@ import com.sabtok.entity.LinkageStatus;
 import com.sabtok.entity.LinkageType;
 import com.sabtok.entity.Page;
 import com.sabtok.entity.PageLinkage;
+import reactor.core.publisher.Flux;
 
 public interface PageService {
   
@@ -18,6 +19,7 @@ public interface PageService {
 	public Page getPageDetailsByBookNo(Long pageNo);
 	public List<Page> getPageListByBookId(String bookId);
 	public List<Page> getAllPagesList();
+	public Flux<Page> getAllPagesListStream();
 	public String deletePage(String pageId);
 	public PageLinkage linkPage(String pageId, String itemId, LinkageType linkageType);
 	List<PageLinkage> getPageLinkedItems(String pageId);

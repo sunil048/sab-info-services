@@ -1,5 +1,6 @@
 package com.sabtok.services.impl;
 
+import java.time.Duration;
 import java.util.*;
 
 import com.sabtok.dao.PageLinkageDao;
@@ -15,6 +16,8 @@ import com.sabtok.services.PageService;
 import com.sabtok.util.StringDateConverter;
 
 import lombok.extern.slf4j.Slf4j;
+import reactor.core.publisher.Flux;
+import reactor.core.scheduler.Schedulers;
 
 @Slf4j
 @Service
@@ -94,6 +97,21 @@ public class PageServiceImpl implements PageService {
 	@Override
 	public List<Page> getAllPagesList() {
 		return pageRepo.getAllPageList();
+	}
+
+
+	public Flux<Page> getAllPagesListStream1() {
+		List<Page> pageList =  pageRepo.getAllPageList();
+		return Flux.fromIterable(pageList)
+				.delayElements(Duration.ofMillis(500))
+				.log();
+	}
+
+	public Flux<Page> getAllPagesListStream() {
+		return Flux.defer(() -> Flux.fromIterable(pageRepo.getAllPageList()))
+				.subscribeOn(Schedulers.boundedElastic()) // Isolates the blocking DB call
+				.delayElements(Duration.ofMillis(5))    // Adds the emission delay
+				.log();
 	}
 
 	@Override
