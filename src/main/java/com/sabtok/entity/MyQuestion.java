@@ -61,13 +61,16 @@ public class MyQuestion extends CreateTraceable {
 	private String label;
 
 	@Column(name="NO_OF_PRACTICE")
-	private String noOfPractice;
+	private Integer noOfPractice = 0;
 
 	@Column(name="NO_OF_ATTEMPTED")
-	private String noOfAttempted;
+	private Integer noOfAttempted = 0;
 
 	@Column(name="LINKED_QUESTIONS_NO")
 	private String linkedQuestionNos;
+
+	@Column(name="QUESTION_GROUP")
+	private String questionGroup;
 
 	@OneToMany(fetch = FetchType.EAGER)
 	@JoinColumn(name = "QUESTION_ID")
