@@ -12,7 +12,7 @@ import lombok.*;
 
 @Entity
 @Table(name="QUESTIONERIES")
-@JsonIgnoreProperties({"comments", "hibernateLazyInitializer", "handler"})
+//@JsonIgnoreProperties({"comments", "hibernateLazyInitializer", "handler"})
 @JsonInclude(content = JsonInclude.Include.NON_NULL)
 @Getter
 @Setter
