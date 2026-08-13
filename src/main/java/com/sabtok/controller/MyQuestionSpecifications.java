@@ -27,7 +27,7 @@ public class MyQuestionSpecifications {
                 ));
             }
 
-           /* // 2. Partial Text Match for Sub-Category mapping
+            // 2. Partial Text Match for Sub-Category mapping
             if (criteria.getSubCategory() != null && ! StringUtils.isBlank(criteria.getSubCategory())) {
                 predicates.add(criteriaBuilder.like(
                         criteriaBuilder.lower(root.get("subCategory")),
@@ -54,14 +54,6 @@ public class MyQuestionSpecifications {
             if (criteria.getLevel() != null && !StringUtils.isBlank(criteria.getLevel())) {
                 predicates.add(criteriaBuilder.equal(root.get("level"), criteria.getLevel()));
             }
-
-            // 7. Optional Text Match on overall comments mapping to question text/labels
-            if (criteria.getComments() != null && !StringUtils.isBlank(criteria.getComments())) {
-                predicates.add(criteriaBuilder.like(
-                        criteriaBuilder.lower(root.get("label")),
-                        "%" + criteria.getComments().toLowerCase() + "%"
-                ));
-            }*/
 
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         };
