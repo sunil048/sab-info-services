@@ -66,6 +66,9 @@ public class MyQuestion extends CreateTraceable {
 	@Column(name="NO_OF_ATTEMPTED")
 	private Integer noOfAttempted = 0;
 
+	@Column(name = "FREQUENCY")
+	private int frequency = 0;
+
 	@Column(name="LINKED_QUESTIONS_NO")
 	private String linkedQuestionNos;
 
