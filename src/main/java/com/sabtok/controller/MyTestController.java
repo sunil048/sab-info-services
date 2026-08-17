@@ -2,6 +2,7 @@ package com.sabtok.controller;
 
 import com.sabtok.dao.MyQuestionDao;
 import com.sabtok.dao.MyTestDao;
+import com.sabtok.dto.MyTestSearchRequest;
 import com.sabtok.entity.MyQuestion;
 import com.sabtok.entity.MyTest;
 import com.sabtok.entity.TestQuestion;
@@ -51,6 +52,45 @@ public class MyTestController {
         return myTestDao.save(myTest);
     }
 
+    @PostMapping("/generate1")
+    public MyTest generateTest1(@RequestBody MyTestSearchRequest myTestSearchRequest) {
+
+        int numberOfQuestionsForTest = 5;
+        if (myTestSearchRequest.getNoOfQuestions() != null) {
+            numberOfQuestionsForTest = myTestSearchRequest.getNoOfQuestions();
+        }
+        MyTest myTest = MyTest.builder()
+                 .name(myTestSearchRequest.getName())
+                .testType(myTestSearchRequest.getTestType())
+                 .date(myTestSearchRequest.getDate())
+                 .category(myTestSearchRequest.getCategories().toString())
+                 .subCategory(myTestSearchRequest.getSubCategories().toString())
+                  .skill(myTestSearchRequest.getSkills().toString())
+                .subSkill(myTestSearchRequest.getSkills().toString())
+                .noOfQuestions(myTestSearchRequest.getNoOfQuestions())
+                .comments(myTestSearchRequest.getComments())
+                .priority(myTestSearchRequest.getPriorities().toString())
+                .level(myTestSearchRequest.getLevels().toString())
+                 .build();
+        Specification<MyQuestion> spec = MyQuestionSpecificationsV1.getDynamicSearchSpecification(myTestSearchRequest);
+        List<MyQuestion> questions = myQuestionDao.findAll(spec);
+        Collections.shuffle(questions);
+        List<TestQuestion> selectedQuestions = questions.stream()
+                .limit(numberOfQuestionsForTest)
+                .map(qu -> TestQuestion.builder()
+                        .id(UUID.randomUUID().toString())
+                        .questionId(qu.getQuestionId())
+                        .questionName(qu.getQuestion())
+                        .isAnswered(false)
+                        .myTest(myTest)
+                        .build())
+                .collect(Collectors.toList());
+
+        myTest.setQuestions(selectedQuestions);
+        return myTestDao.save(myTest);
+    }
+
+
     @GetMapping("/data")
     public MyTest getMyTest(){
 
@@ -79,12 +119,11 @@ public class MyTestController {
 
     @PostMapping("/save")
     public MyTest saveTestResult(@RequestBody MyTest myTest) {
-
+        myTest.setIsCompleted(Boolean.TRUE);
         List<TestQuestion> testQuestions = myTest.getQuestions();
         testQuestions.forEach(testQuestion -> {testQuestion.setTestId(myTest.getId());
         testQuestion.setMyTest(myTest);});
         return myTestDao.save(myTest);
-
     }
 
     @GetMapping("/")
