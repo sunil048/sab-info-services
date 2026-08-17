@@ -61,9 +61,16 @@ public class MyTestController {
         }
         MyTest myTest = MyTest.builder()
                  .name(myTestSearchRequest.getName())
+                .testType(myTestSearchRequest.getTestType())
                  .date(myTestSearchRequest.getDate())
                  .category(myTestSearchRequest.getCategories().toString())
                  .subCategory(myTestSearchRequest.getSubCategories().toString())
+                  .skill(myTestSearchRequest.getSkills().toString())
+                .subSkill(myTestSearchRequest.getSkills().toString())
+                .noOfQuestions(myTestSearchRequest.getNoOfQuestions())
+                .comments(myTestSearchRequest.getComments())
+                .priority(myTestSearchRequest.getPriorities().toString())
+                .level(myTestSearchRequest.getLevels().toString())
                  .build();
         Specification<MyQuestion> spec = MyQuestionSpecificationsV1.getDynamicSearchSpecification(myTestSearchRequest);
         List<MyQuestion> questions = myQuestionDao.findAll(spec);
@@ -112,12 +119,11 @@ public class MyTestController {
 
     @PostMapping("/save")
     public MyTest saveTestResult(@RequestBody MyTest myTest) {
-
+        myTest.setIsCompleted(Boolean.TRUE);
         List<TestQuestion> testQuestions = myTest.getQuestions();
         testQuestions.forEach(testQuestion -> {testQuestion.setTestId(myTest.getId());
         testQuestion.setMyTest(myTest);});
         return myTestDao.save(myTest);
-
     }
 
     @GetMapping("/")

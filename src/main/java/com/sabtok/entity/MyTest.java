@@ -27,6 +27,9 @@ public class MyTest {
     @Column(name="NAME")
     private String name;
 
+    @Column(name="TEST_TYPE")
+    private String testType;
+
     @Column(name="CATEGORY")
     private String category;
 
@@ -59,6 +62,9 @@ public class MyTest {
 
     @Column(name = "COMMENTS")
     private String comments;
+
+    @Column(name = "IS_COMPLETED")
+    private Boolean isCompleted;
 
     @OneToMany(mappedBy = "myTest",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<TestQuestion> questions;

@@ -9,6 +9,7 @@ import java.util.List;
 public class MyTestSearchRequest {
 
     private String name;               // Match partial text
+    private String testType;
     private List<String> categories;   // Match multiple values (IN clause)
     private List<String> subCategories;   // Match multiple values (IN clause)
     private List<String> skills;
@@ -17,5 +18,6 @@ public class MyTestSearchRequest {
     private List<String> levels;       // Match multiple values (IN clause)
     private Integer noOfQuestions;
     private LocalDateTime date;
+    private String comments;
 
 }
