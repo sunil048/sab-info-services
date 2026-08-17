@@ -30,6 +30,9 @@ public class TestQuestion {
     @Column(name="IS_ANSWERED")
     private Boolean isAnswered;
 
+    @Column(name="PERCENTAGE_ANSWERED")
+    private Integer percentageAnswered;
+
     @Column(name="COMMENT")
     private String comment;
 
