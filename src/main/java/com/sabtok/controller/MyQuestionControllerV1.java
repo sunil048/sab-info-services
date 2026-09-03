@@ -1,5 +1,7 @@
 package com.sabtok.controller;
 
+import com.sabtok.dao.MyQuestionDao;
+import com.sabtok.entity.Comment;
 import com.sabtok.entity.MyQuestion;
 import com.sabtok.services.MyQuestionServiceI;
 import lombok.RequiredArgsConstructor;
@@ -21,10 +23,12 @@ public class MyQuestionControllerV1 {
 
     private final MyQuestionServiceI myQuestionService;
 
+    private  final MyQuestionDao myQuestionDao;
+
     @GetMapping("/questions")
-    public ResponseEntity<Page<MyQuestion>> getQuestions(@RequestParam(value = "pageNo", defaultValue = "1")  int pageNo,
+    public Page<MyQuestion> getQuestions(@RequestParam(value = "pageNo", defaultValue = "1")  int pageNo,
                                                         @RequestParam(value = "pageLimit", defaultValue = "10") int pageLimit) {
         Pageable pageable = PageRequest.of(pageNo - 1,pageLimit);
-        return ResponseEntity.ok(myQuestionService.getQuestions(pageable));
+        return myQuestionDao.findAll(pageable);
     }
 }

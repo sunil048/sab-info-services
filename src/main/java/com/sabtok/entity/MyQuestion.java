@@ -9,6 +9,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import lombok.*;
+import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 @Entity
 @Table(name="QUESTIONERIES")
@@ -75,8 +78,10 @@ public class MyQuestion extends CreateTraceable {
 	@Column(name="QUESTION_GROUP")
 	private String questionGroup;
 
-	@OneToMany(fetch = FetchType.EAGER)
+	//@Fetch(FetchMode.SUBSELECT)
+	@OneToMany(fetch = FetchType.LAZY)
 	@JoinColumn(name = "QUESTION_ID")
+	@BatchSize(size = 20)
 	private List<Comment> comments;
 
 	@PreUpdate

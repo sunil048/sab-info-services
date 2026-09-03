@@ -1,9 +1,8 @@
 package com.sabtok.dao;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
@@ -21,4 +20,9 @@ public interface MyQuestionDao extends JpaRepository<MyQuestion, Long>, JpaSpeci
     public int closeQuestion(@Param("questionNo") long questionNo);
 
     public List<MyQuestion> findAllByCategory(String category);
+
+    // Triggers an eager fetch of the 'subSelectRelation' collection for this query only
+    //@EntityGraph(attributePaths = {"comments"},type = EntityGraph.EntityGraphType.FETCH)
+    //@Query("select q from MyQuestion q left join fetch q.comments")
+    Page<MyQuestion> findAll(Pageable pageable);
 }
