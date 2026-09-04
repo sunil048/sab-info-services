@@ -70,6 +70,7 @@ public class PageLinkageScheduler {
                 .collect(Collectors.toList());
 
         List<PageLinkage> updatedLinks = new ArrayList<>();
+
         userStoryList.forEach(pl -> {
             try {
                 Map<String, String> response = (Map<String, String>) userStoryClient.getUserStoryDetails(pl.getItemId());
@@ -80,6 +81,7 @@ public class PageLinkageScheduler {
                     updatedLinks.add(pl);
                 }
             } catch (Exception e){
+                e.printStackTrace();
                 pl.setError(e.getMessage());
                 pl.setUpdatedAt(StringDateConverter.getTimeStamp());
                 pl.setStatus(LinkageStatus.FAILED);
